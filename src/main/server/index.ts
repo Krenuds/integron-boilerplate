@@ -1,10 +1,18 @@
 import express from 'express'
 import { createServer, Server } from 'http'
-import { join } from 'path'
+import { join, dirname } from 'path'
 import { existsSync } from 'fs'
 import { createApiRouter } from './routes'
 import { wsHandler } from './websocket'
 import { eventBus } from '../events/bus'
+
+// Get the path to the out directory (where main process runs from)
+function getOverlayPath(): string {
+  // __dirname in built code is out/main, so overlays are at out/overlays
+  // This works for both dev and production
+  const outDir = dirname(__dirname) // out/main -> out
+  return join(outDir, 'overlays')
+}
 
 // HTTP + WebSocket server for overlays and API
 
@@ -38,13 +46,14 @@ class OverlayServer {
     // API routes
     this.app.use('/api', createApiRouter())
 
-    // Serve overlay static files (production)
-    const overlayPath = join(__dirname, '../../overlays')
+    // Serve overlay static files
+    const overlayPath = getOverlayPath()
+    console.log(`[Server] Looking for overlays at: ${overlayPath}`)
     if (existsSync(overlayPath)) {
       this.app.use('/overlay', express.static(overlayPath))
       console.log(`[Server] Serving overlays from ${overlayPath}`)
     } else {
-      console.log('[Server] Overlay directory not found, skipping static serving')
+      console.log('[Server] Overlay directory not found - run "npm run build:overlays" first')
     }
 
     // Health check
