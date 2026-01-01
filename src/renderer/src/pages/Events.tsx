@@ -17,8 +17,8 @@ export default function Events(): React.JSX.Element {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            <Table.Row>
-              <Table.Cell colSpan={4} borderColor="gray.700">
+            <Table.Row bg="gray.800">
+              <Table.Cell colSpan={4} borderColor="gray.700" color="gray.100">
                 <Text color="gray.500" textAlign="center" py={4}>
                   No events yet
                 </Text>
