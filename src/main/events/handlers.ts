@@ -207,7 +207,12 @@ function getDefaultEventData(type: EventType): unknown {
     case 'raid':
       return { viewers: 50 }
     case 'redemption':
-      return { rewardId: 'test-reward', rewardTitle: 'Test Reward', rewardCost: 100, userInput: null }
+      return {
+        rewardId: 'test-reward',
+        rewardTitle: 'Test Reward',
+        rewardCost: 100,
+        userInput: null
+      }
     case 'hype_train_begin':
       return { level: 1, total: 500, goal: 1000 }
     case 'hype_train_end':

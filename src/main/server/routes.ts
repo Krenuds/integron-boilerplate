@@ -99,10 +99,7 @@ export function createApiRouter(): Router {
         .all()
 
       // Get total count
-      const countResult = db
-        .select({ count: schema.users.id })
-        .from(schema.users)
-        .all()
+      const countResult = db.select({ count: schema.users.id }).from(schema.users).all()
 
       res.json({
         success: true,
@@ -135,11 +132,7 @@ export function createApiRouter(): Router {
       }
 
       const db = getDatabase()
-      const user = db
-        .select()
-        .from(schema.users)
-        .where(eq(schema.users.id, id))
-        .get()
+      const user = db.select().from(schema.users).where(eq(schema.users.id, id)).get()
 
       if (!user) {
         errorResponse(res, 404, 'User not found', 'USER_NOT_FOUND')

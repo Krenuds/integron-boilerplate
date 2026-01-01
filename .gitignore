@@ -8,5 +8,7 @@ out
 
 # Project-specific exclusions
 GIBLETRON-OVERVIEW.md
+.GIBLETRON-OVERVIEW.md
+.test_users.json
 logo.png
 GibletsFilled.png

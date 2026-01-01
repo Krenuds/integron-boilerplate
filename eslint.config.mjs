@@ -25,7 +25,27 @@ export default defineConfig(
     },
     rules: {
       ...eslintPluginReactHooks.configs.recommended.rules,
-      ...eslintPluginReactRefresh.configs.vite.rules
+      ...eslintPluginReactRefresh.configs.vite.rules,
+      // Relax overly strict rules for boilerplate
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      // setState in effects is fine for initialization and queue processing
+      'react-hooks/set-state-in-effect': 'off',
+      // Self-referencing callbacks are valid for reconnection patterns
+      'react-hooks/immutability': 'off'
+    }
+  },
+  // Overlay entry points don't export (they call createRoot directly)
+  {
+    files: ['src/overlays/src/*.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off'
+    }
+  },
+  // Context files export both components and hooks
+  {
+    files: ['src/renderer/src/contexts/*.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off'
     }
   },
   eslintConfigPrettier

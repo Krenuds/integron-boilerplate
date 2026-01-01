@@ -67,9 +67,7 @@ export default function Goals() {
   return (
     <div className="goal-container">
       <div className="goal-bar" style={{ width: `${(bitGoal / 1000) * 100}%` }} />
-      <span>
-        {bitGoal} / 1000 bits
-      </span>
+      <span>{bitGoal} / 1000 bits</span>
     </div>
   )
 }
@@ -137,11 +135,11 @@ const { events, connected, lastEvent } = useEventSocket({
 
 ### Hook Return Values
 
-| Property    | Type       | Description                    |
-| ----------- | ---------- | ------------------------------ |
-| `events`    | `Event[]`  | Array of received events       |
-| `connected` | `boolean`  | WebSocket connection status    |
-| `lastEvent` | `Event`    | Most recently received event   |
+| Property    | Type      | Description                  |
+| ----------- | --------- | ---------------------------- |
+| `events`    | `Event[]` | Array of received events     |
+| `connected` | `boolean` | WebSocket connection status  |
+| `lastEvent` | `Event`   | Most recently received event |
 
 ### Filtering Events
 

@@ -11,13 +11,13 @@ function App(): React.JSX.Element {
   return (
     <AuthProvider>
       <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="events" element={<Events />} />
-        <Route path="users" element={<Users />} />
-        <Route path="test" element={<TestPanel />} />
-      </Route>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="events" element={<Events />} />
+          <Route path="users" element={<Users />} />
+          <Route path="test" element={<TestPanel />} />
+        </Route>
       </Routes>
     </AuthProvider>
   )

@@ -81,11 +81,11 @@ The Electron window serves as the configuration dashboard.
 
 Three separate tsconfig files:
 
-| File                 | Purpose                                                         |
-| -------------------- | --------------------------------------------------------------- |
-| `tsconfig.node.json` | Main and preload processes                                      |
-| `tsconfig.web.json`  | Renderer process (includes `@renderer/*` → `src/renderer/src/*`)|
-| `tsconfig.json`      | Composite root                                                  |
+| File                 | Purpose                                                          |
+| -------------------- | ---------------------------------------------------------------- |
+| `tsconfig.node.json` | Main and preload processes                                       |
+| `tsconfig.web.json`  | Renderer process (includes `@renderer/*` → `src/renderer/src/*`) |
+| `tsconfig.json`      | Composite root                                                   |
 
 ## Code Style
 

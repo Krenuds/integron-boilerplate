@@ -1,5 +1,15 @@
 import { useState } from 'react'
-import { Box, Heading, SimpleGrid, Button, Textarea, Text, Badge, VStack, HStack } from '@chakra-ui/react'
+import {
+  Box,
+  Heading,
+  SimpleGrid,
+  Button,
+  Textarea,
+  Text,
+  Badge,
+  VStack,
+  HStack
+} from '@chakra-ui/react'
 import { useEvents } from '../contexts/EventContext'
 import type { EventType, TwitchEvent } from '../../../shared/event-types'
 
@@ -22,7 +32,9 @@ function formatTime(dateString: string): string {
 export default function TestPanel(): React.JSX.Element {
   const { fireTestEvent, events } = useEvents()
   const [loading, setLoading] = useState<EventType | null>(null)
-  const [customPayload, setCustomPayload] = useState('{\n  "type": "chat",\n  "data": {\n    "message": "Hello world!"\n  }\n}')
+  const [customPayload, setCustomPayload] = useState(
+    '{\n  "type": "chat",\n  "data": {\n    "message": "Hello world!"\n  }\n}'
+  )
   const [customLoading, setCustomLoading] = useState(false)
   const [lastFired, setLastFired] = useState<string | null>(null)
 

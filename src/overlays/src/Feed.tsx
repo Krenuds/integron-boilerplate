@@ -1,5 +1,5 @@
+import React, { useEffect, useRef, useMemo } from 'react'
 import { createRoot } from 'react-dom/client'
-import { useEffect, useRef, useMemo } from 'react'
 import { useEventSocket, TwitchEvent, EventType } from './hooks/useEventSocket'
 import type {
   ChatEventData,
@@ -107,7 +107,7 @@ function getEventDescription(event: TwitchEvent): string {
   }
 }
 
-function EventItem({ event }: { event: TwitchEvent }) {
+function EventItem({ event }: { event: TwitchEvent }): React.JSX.Element {
   const style = eventStyles[event.type] || { icon: '📌', color: '#6B7280' }
 
   return (
@@ -125,7 +125,10 @@ function EventItem({ event }: { event: TwitchEvent }) {
     >
       <span style={{ fontSize: '16px' }}>{style.icon}</span>
       <img
-        src={event.profileImageUrl || 'https://static-cdn.jtvnw.net/user-default-pictures-uv/75305d54-c7cc-40d1-bb9c-91c7eb50f43e-profile_image-70x70.png'}
+        src={
+          event.profileImageUrl ||
+          'https://static-cdn.jtvnw.net/user-default-pictures-uv/75305d54-c7cc-40d1-bb9c-91c7eb50f43e-profile_image-70x70.png'
+        }
         alt=""
         style={{ width: '24px', height: '24px', borderRadius: '50%' }}
       />
@@ -139,7 +142,7 @@ function EventItem({ event }: { event: TwitchEvent }) {
   )
 }
 
-function Feed() {
+function Feed(): React.JSX.Element {
   const { max, types } = useMemo(() => getUrlParams(), [])
   const { events, connected } = useEventSocket({ eventTypes: types })
   const containerRef = useRef<HTMLDivElement>(null)

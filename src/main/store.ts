@@ -56,7 +56,11 @@ export function clearTokens(): void {
   store.delete('tokens')
 }
 
-export function getBroadcaster(): { id: string; login: string; profileImageUrl: string | null } | null {
+export function getBroadcaster(): {
+  id: string
+  login: string
+  profileImageUrl: string | null
+} | null {
   const id = store.get('broadcasterId')
   const login = store.get('broadcasterLogin')
   const profileImageUrl = store.get('broadcasterProfileImageUrl')

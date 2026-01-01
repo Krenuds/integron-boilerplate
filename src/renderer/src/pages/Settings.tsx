@@ -1,13 +1,36 @@
 import { useState, useEffect } from 'react'
-import { Box, Heading, Stack, Field, Input, Button, Text, Spinner, Badge, Link, Code, HStack, Avatar } from '@chakra-ui/react'
+import {
+  Box,
+  Heading,
+  Stack,
+  Field,
+  Input,
+  Button,
+  Text,
+  Spinner,
+  Badge,
+  Link,
+  Code,
+  HStack,
+  Avatar,
+  Clipboard
+} from '@chakra-ui/react'
 import { useAuth } from '../contexts/AuthContext'
 
 const CALLBACK_URI = 'http://localhost:9848/callback'
 const TWITCH_CONSOLE_URL = 'https://dev.twitch.tv/console/apps'
 
 export default function Settings(): React.JSX.Element {
-  const { status, credentials, isLoading, error, saveCredentials, startLogin, logout, refreshStatus } =
-    useAuth()
+  const {
+    status,
+    credentials,
+    isLoading,
+    error,
+    saveCredentials,
+    startLogin,
+    logout,
+    refreshStatus
+  } = useAuth()
 
   const [clientId, setClientId] = useState('')
   const [clientSecret, setClientSecret] = useState('')
@@ -76,20 +99,51 @@ export default function Settings(): React.JSX.Element {
       </Heading>
       <Box bg="gray.800" p={4} borderRadius="md" maxW="500px">
         <Stack gap={4}>
-          <Box bg="gray.750" p={3} borderRadius="md" borderLeft="3px solid" borderColor="purple.500">
-            <Text fontSize="sm" color="gray.300" mb={2}>
-              Create a Twitch application at the{' '}
+          <Box
+            bg="gray.750"
+            p={3}
+            borderRadius="md"
+            borderLeft="3px solid"
+            borderColor="purple.500"
+          >
+            <Text fontSize="sm" color="gray.300" mb={3}>
+              Setup via{' '}
               <Link href={TWITCH_CONSOLE_URL} color="purple.300" target="_blank">
                 Twitch Developer Console
               </Link>
             </Text>
-            <Text fontSize="sm" color="gray.400" mb={1}>
-              Set the OAuth Redirect URL to:
-            </Text>
-            <Code fontSize="xs" p={1} bg="gray.900" color="green.300">
-              {CALLBACK_URI}
-            </Code>
+            <Stack gap={1} fontSize="xs" color="gray.400">
+              <Text>1. Create a new application (or use existing)</Text>
+              <Text>2. Set OAuth Redirect URL to the callback below</Text>
+              <Text>3. Copy the Client ID</Text>
+              <Text>4. Generate a new Client Secret and copy it</Text>
+              <Text>5. Paste both values below and save</Text>
+            </Stack>
           </Box>
+
+          <HStack bg="gray.900" p={2} borderRadius="sm" justify="space-between">
+            <HStack gap={2}>
+              <Text fontSize="xs" color="gray.500">
+                Callback URI:
+              </Text>
+              <Code fontSize="xs" bg="transparent" color="gray.300">
+                {CALLBACK_URI}
+              </Code>
+            </HStack>
+            <Clipboard.Root value={CALLBACK_URI}>
+              <Clipboard.Trigger asChild>
+                <Box
+                  as="span"
+                  cursor="pointer"
+                  color="gray.500"
+                  _hover={{ color: 'gray.300' }}
+                  title="Copy callback URI"
+                >
+                  <Clipboard.Indicator />
+                </Box>
+              </Clipboard.Trigger>
+            </Clipboard.Root>
+          </HStack>
 
           <Field.Root>
             <Field.Label>Client ID</Field.Label>

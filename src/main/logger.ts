@@ -1,6 +1,7 @@
 import log from 'electron-log'
 import { app } from 'electron'
 import { join } from 'path'
+import * as fs from 'fs'
 
 // Configure electron-log for file and console logging
 // Keeps 3 rotated log files in the app's logs directory
@@ -27,7 +28,6 @@ log.transports.file.archiveLogFn = (oldLogFile) => {
   const file1 = info.replace('main.log', 'main.1.log')
 
   try {
-    const fs = require('fs')
     // Delete oldest if exists
     if (fs.existsSync(file2)) {
       fs.unlinkSync(file2)

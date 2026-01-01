@@ -6,17 +6,17 @@ Integron uses [Twurple](https://twurple.js.org/) for all Twitch API interactions
 
 All available broadcaster scopes are requested:
 
-| Scope                          | Purpose              |
-| ------------------------------ | -------------------- |
-| `chat:read`                    | Read chat messages   |
-| `chat:edit`                    | Send chat messages   |
-| `channel:read:subscriptions`   | Subscriber data      |
-| `channel:read:redemptions`     | Channel points       |
-| `bits:read`                    | Bits/cheers          |
-| `moderator:read:followers`     | Follower events      |
-| `channel:read:hype_train`      | Hype trains          |
-| `channel:read:polls`           | Poll events          |
-| `channel:read:predictions`     | Prediction events    |
+| Scope                        | Purpose            |
+| ---------------------------- | ------------------ |
+| `chat:read`                  | Read chat messages |
+| `chat:edit`                  | Send chat messages |
+| `channel:read:subscriptions` | Subscriber data    |
+| `channel:read:redemptions`   | Channel points     |
+| `bits:read`                  | Bits/cheers        |
+| `moderator:read:followers`   | Follower events    |
+| `channel:read:hype_train`    | Hype trains        |
+| `channel:read:polls`         | Poll events        |
+| `channel:read:predictions`   | Prediction events  |
 
 ## Events Listened
 

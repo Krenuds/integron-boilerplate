@@ -1,15 +1,6 @@
 import { useState, useEffect } from 'react'
-import {
-  Box,
-  Heading,
-  Text,
-  HStack,
-  VStack,
-  Circle,
-  IconButton,
-  Clipboard
-} from '@chakra-ui/react'
-import { LuExternalLink, LuRefreshCw } from 'react-icons/lu'
+import { Box, Heading, Text, HStack, VStack, Circle, IconButton, Clipboard } from '@chakra-ui/react'
+import { LuRefreshCw } from 'react-icons/lu'
 import type { OverlayInfo, ServerStatus } from '../../../shared/ipc-types'
 
 export default function OverlayLinks(): React.JSX.Element {
@@ -59,65 +50,57 @@ export default function OverlayLinks(): React.JSX.Element {
               )}
             </HStack>
           )}
-          <IconButton
-            aria-label="Refresh"
-            size="xs"
-            variant="ghost"
-            onClick={fetchData}
-          >
+          <IconButton aria-label="Refresh" size="xs" variant="ghost" onClick={fetchData}>
             <LuRefreshCw />
           </IconButton>
         </HStack>
       </HStack>
 
-      <Box p={4}>
+      <Box px={4} py={2}>
         {isLoading ? (
-          <Text color="gray.500" fontSize="sm">Loading...</Text>
+          <Text color="gray.400" fontSize="xs">
+            Loading...
+          </Text>
         ) : !serverStatus?.running ? (
-          <Text color="red.400" fontSize="sm">Server is not running</Text>
+          <Text color="red.400" fontSize="xs">
+            Server is not running
+          </Text>
         ) : overlays.length === 0 ? (
-          <Text color="gray.500" fontSize="sm">No overlays found. Run npm run build:overlays first.</Text>
+          <Text color="gray.400" fontSize="xs">
+            No overlays found. Run npm run build:overlays first.
+          </Text>
         ) : (
-          <VStack align="stretch" gap={2}>
+          <VStack align="stretch" gap={0}>
             {overlays.map((overlay) => (
-              <HStack
-                key={overlay.name}
-                justify="space-between"
-                p={2}
-                bg="gray.700"
-                borderRadius="sm"
-              >
-                <VStack align="flex-start" gap={0}>
-                  <Text fontSize="sm" fontWeight="medium">
+              <HStack key={overlay.name} justify="space-between">
+                <HStack gap={3}>
+                  <Text fontSize="xs" color="gray.300" fontWeight="bold" minW="50px">
                     {overlay.displayName}
                   </Text>
-                  <Text fontSize="xs" color="gray.500" fontFamily="mono">
+                  <Text
+                    fontSize="xs"
+                    color="gray.500"
+                    fontFamily="mono"
+                    cursor="pointer"
+                    _hover={{ color: 'gray.300' }}
+                    onClick={() => handleOpenExternal(overlay.url)}
+                  >
                     {overlay.url}
                   </Text>
-                </VStack>
-                <HStack gap={1}>
-                  <Clipboard.Root value={overlay.url}>
-                    <Clipboard.Trigger asChild>
-                      <IconButton
-                        aria-label="Copy URL"
-                        size="xs"
-                        variant="ghost"
-                        title="Copy URL for OBS"
-                      >
-                        <Clipboard.Indicator />
-                      </IconButton>
-                    </Clipboard.Trigger>
-                  </Clipboard.Root>
-                  <IconButton
-                    aria-label="Open in browser"
-                    size="xs"
-                    variant="ghost"
-                    onClick={() => handleOpenExternal(overlay.url)}
-                    title="Open in browser"
-                  >
-                    <LuExternalLink />
-                  </IconButton>
                 </HStack>
+                <Clipboard.Root value={overlay.url}>
+                  <Clipboard.Trigger asChild>
+                    <Box
+                      as="span"
+                      cursor="pointer"
+                      color="gray.500"
+                      _hover={{ color: 'gray.300' }}
+                      title="Copy URL"
+                    >
+                      <Clipboard.Indicator />
+                    </Box>
+                  </Clipboard.Trigger>
+                </Clipboard.Root>
               </HStack>
             ))}
           </VStack>

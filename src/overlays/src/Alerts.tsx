@@ -1,5 +1,5 @@
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { createRoot } from 'react-dom/client'
-import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useEventSocket, TwitchEvent, EventType } from './hooks/useEventSocket'
 import type {
   SubEventData,
@@ -134,7 +134,12 @@ interface AlertDisplayProps {
   duration: number
 }
 
-function AlertDisplay({ event, animation, onComplete, duration }: AlertDisplayProps) {
+function AlertDisplay({
+  event,
+  animation,
+  onComplete,
+  duration
+}: AlertDisplayProps): React.JSX.Element {
   const [visible, setVisible] = useState(false)
   const style = alertStyles[event.type] || alertStyles.follow
 
@@ -187,7 +192,10 @@ function AlertDisplay({ event, animation, onComplete, duration }: AlertDisplayPr
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         <img
-          src={event.profileImageUrl || 'https://static-cdn.jtvnw.net/user-default-pictures-uv/75305d54-c7cc-40d1-bb9c-91c7eb50f43e-profile_image-70x70.png'}
+          src={
+            event.profileImageUrl ||
+            'https://static-cdn.jtvnw.net/user-default-pictures-uv/75305d54-c7cc-40d1-bb9c-91c7eb50f43e-profile_image-70x70.png'
+          }
           alt=""
           style={{
             width: '64px',

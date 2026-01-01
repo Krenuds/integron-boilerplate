@@ -6,42 +6,42 @@ Typed end-to-end communication between renderer and main process.
 
 ### Auth
 
-| Channel                 | Returns                        | Description              |
-| ----------------------- | ------------------------------ | ------------------------ |
-| `auth:get-status`       | `{ authenticated, channel }`   | Check auth state         |
-| `auth:start-login`      | `void`                         | Opens browser for OAuth  |
-| `auth:logout`           | `void`                         | Clears tokens            |
-| `auth:save-credentials` | `void`                         | Stores client ID/secret  |
+| Channel                 | Returns                      | Description             |
+| ----------------------- | ---------------------------- | ----------------------- |
+| `auth:get-status`       | `{ authenticated, channel }` | Check auth state        |
+| `auth:start-login`      | `void`                       | Opens browser for OAuth |
+| `auth:logout`           | `void`                       | Clears tokens           |
+| `auth:save-credentials` | `void`                       | Stores client ID/secret |
 
 ### Events
 
-| Channel            | Returns    | Description               |
-| ------------------ | ---------- | ------------------------- |
-| `events:get-recent`| `Event[]`  | Get recent events         |
-| `events:test-fire` | `void`     | Simulates an event        |
-| `events:subscribe` | `void`     | Start receiving events    |
+| Channel             | Returns   | Description            |
+| ------------------- | --------- | ---------------------- |
+| `events:get-recent` | `Event[]` | Get recent events      |
+| `events:test-fire`  | `void`    | Simulates an event     |
+| `events:subscribe`  | `void`    | Start receiving events |
 
 ### Users
 
-| Channel          | Returns           | Description                |
-| ---------------- | ----------------- | -------------------------- |
-| `users:get-all`  | `UserListResult`  | Paginated user list        |
-| `users:get-by-id`| `User`            | Single user by ID          |
-| `users:delete`   | `void`            | Removes user and events    |
+| Channel           | Returns          | Description             |
+| ----------------- | ---------------- | ----------------------- |
+| `users:get-all`   | `UserListResult` | Paginated user list     |
+| `users:get-by-id` | `User`           | Single user by ID       |
+| `users:delete`    | `void`           | Removes user and events |
 
 ### Server
 
-| Channel             | Returns                          | Description          |
-| ------------------- | -------------------------------- | -------------------- |
-| `server:get-status` | `{ running, port, connections }` | Server status        |
-| `server:restart`    | `void`                           | Restart HTTP/WS      |
+| Channel             | Returns                          | Description     |
+| ------------------- | -------------------------------- | --------------- |
+| `server:get-status` | `{ running, port, connections }` | Server status   |
+| `server:restart`    | `void`                           | Restart HTTP/WS |
 
 ### Settings
 
-| Channel           | Returns    | Description        |
-| ----------------- | ---------- | ------------------ |
-| `settings:get`    | `Settings` | Get all settings   |
-| `settings:update` | `void`     | Update settings    |
+| Channel           | Returns    | Description      |
+| ----------------- | ---------- | ---------------- |
+| `settings:get`    | `Settings` | Get all settings |
+| `settings:update` | `void`     | Update settings  |
 
 ## Adding New IPC Channels
 

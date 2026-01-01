@@ -1,5 +1,5 @@
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { createRoot } from 'react-dom/client'
-import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useEventSocket, TwitchEvent } from './hooks/useEventSocket'
 import type { ChatEventData } from '@shared/event-types'
 
@@ -26,7 +26,7 @@ function ChatMessageItem({
   message: ChatMessage
   fade: number
   onFaded: (id: number) => void
-}) {
+}): React.JSX.Element {
   const [opacity, setOpacity] = useState(1)
   const data = message.data as ChatEventData
 
@@ -134,7 +134,7 @@ function ChatMessageItem({
   )
 }
 
-function Chat() {
+function Chat(): React.JSX.Element {
   const { max, fade } = useMemo(() => getUrlParams(), [])
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const containerRef = useRef<HTMLDivElement>(null)

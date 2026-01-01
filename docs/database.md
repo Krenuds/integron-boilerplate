@@ -56,20 +56,10 @@ const db = getDatabase()
 const user = db.select().from(users).where(eq(users.id, '12345')).get()
 
 // Get all users sorted by message count
-const topChatters = db
-  .select()
-  .from(users)
-  .orderBy(desc(users.messageCount))
-  .limit(10)
-  .all()
+const topChatters = db.select().from(users).orderBy(desc(users.messageCount)).limit(10).all()
 
 // Get recent events
-const recentEvents = db
-  .select()
-  .from(events)
-  .orderBy(desc(events.createdAt))
-  .limit(50)
-  .all()
+const recentEvents = db.select().from(events).orderBy(desc(events.createdAt)).limit(50).all()
 
 // Insert a new user
 db.insert(users)

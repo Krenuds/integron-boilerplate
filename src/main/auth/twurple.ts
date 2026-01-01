@@ -39,13 +39,17 @@ export function createAuthProvider(): RefreshingAuthProvider | null {
 
   // Add user with token data and intents for chat and eventsub
   const userId = broadcaster?.id ?? tokens.accessToken
-  authProvider.addUser(userId, {
-    accessToken: tokens.accessToken,
-    refreshToken: tokens.refreshToken,
-    expiresIn: tokens.expiresIn,
-    obtainmentTimestamp: tokens.obtainmentTimestamp,
-    scope: tokens.scope
-  }, ['chat'])
+  authProvider.addUser(
+    userId,
+    {
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+      expiresIn: tokens.expiresIn,
+      obtainmentTimestamp: tokens.obtainmentTimestamp,
+      scope: tokens.scope
+    },
+    ['chat']
+  )
 
   // Create API client for Helix API calls
   apiClient = new ApiClient({ authProvider })

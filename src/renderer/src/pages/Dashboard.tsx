@@ -84,37 +84,55 @@ export default function Dashboard(): React.JSX.Element {
                   </Avatar.Root>
                 )}
                 {twitchStatus.channel && (
-                  <Text fontSize="xl" fontWeight="bold">#{twitchStatus.channel}</Text>
+                  <Text fontSize="xl" fontWeight="bold">
+                    #{twitchStatus.channel}
+                  </Text>
                 )}
               </HStack>
               <HStack gap={4} mb={4}>
                 <HStack gap={2}>
                   <Circle size="10px" bg={authStatus.authenticated ? 'green.400' : 'red.400'} />
-                  <Text fontSize="sm" color="gray.400">Auth</Text>
+                  <Text fontSize="sm" color="gray.400">
+                    Auth
+                  </Text>
                 </HStack>
                 <HStack gap={2}>
                   <Circle size="10px" bg={twitchStatus.chat ? 'green.400' : 'red.400'} />
-                  <Text fontSize="sm" color="gray.400">Chat</Text>
+                  <Text fontSize="sm" color="gray.400">
+                    Chat
+                  </Text>
                 </HStack>
                 <HStack gap={2}>
                   <Circle size="10px" bg={twitchStatus.eventsub ? 'green.400' : 'red.400'} />
-                  <Text fontSize="sm" color="gray.400">EventSub</Text>
+                  <Text fontSize="sm" color="gray.400">
+                    EventSub
+                  </Text>
                 </HStack>
               </HStack>
               <HStack gap={6}>
                 <VStack align="flex-start" gap={0}>
-                  <Text fontSize="xs" color="gray.500">Users</Text>
-                  <Text fontSize="lg" fontWeight="bold">{userCount}</Text>
+                  <Text fontSize="xs" color="gray.500">
+                    Users
+                  </Text>
+                  <Text fontSize="lg" fontWeight="bold">
+                    {userCount}
+                  </Text>
                 </VStack>
                 <VStack align="flex-start" gap={0}>
-                  <Text fontSize="xs" color="gray.500">Events Today</Text>
-                  <Text fontSize="lg" fontWeight="bold">{eventsToday}</Text>
+                  <Text fontSize="xs" color="gray.500">
+                    Events Today
+                  </Text>
+                  <Text fontSize="lg" fontWeight="bold">
+                    {eventsToday}
+                  </Text>
                 </VStack>
               </HStack>
             </>
           ) : (
             <VStack align="flex-start" gap={2}>
-              <Text color="red.400" fontWeight="medium">Disconnected</Text>
+              <Text color="red.400" fontWeight="medium">
+                Disconnected
+              </Text>
               <RouterLink to="/settings" style={{ color: '#A855F7', fontSize: '14px' }}>
                 Go to Settings to connect your Twitch account →
               </RouterLink>
