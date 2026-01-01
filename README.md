@@ -18,6 +18,18 @@
 
 ---
 
+## Why This Exists
+
+Cloud overlay services limit what you can build. This runs locally, so you can do whatever you want:
+
+- **WebGL/Three.js chat visualizations** - 3D particle systems, shader effects, physics simulations
+- **GPU-accelerated animations** - No iframe sandboxing, full hardware access
+- **Local file access** - Read/write files, integrate with other apps
+- **Custom data pipelines** - Store everything in SQLite, build your own analytics
+- **Zero latency** - Events go straight from Twitch to your overlay, no cloud middleman
+
+It's a boilerplate. Fork it, break it, make something weird.
+
 ## How It Works
 
 **Two interfaces, one app:**
