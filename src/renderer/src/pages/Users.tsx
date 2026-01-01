@@ -7,19 +7,19 @@ export default function Users(): React.JSX.Element {
         Users
       </Heading>
       <Box bg="gray.800" borderRadius="md" overflow="hidden">
-        <Table.Root size="sm">
+        <Table.Root size="sm" variant="line">
           <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeader>Username</Table.ColumnHeader>
-              <Table.ColumnHeader>Messages</Table.ColumnHeader>
-              <Table.ColumnHeader>Bits</Table.ColumnHeader>
-              <Table.ColumnHeader>Sub Months</Table.ColumnHeader>
-              <Table.ColumnHeader>Last Seen</Table.ColumnHeader>
+            <Table.Row bg="gray.700">
+              <Table.ColumnHeader color="gray.300" borderColor="gray.600">Username</Table.ColumnHeader>
+              <Table.ColumnHeader color="gray.300" borderColor="gray.600">Messages</Table.ColumnHeader>
+              <Table.ColumnHeader color="gray.300" borderColor="gray.600">Bits</Table.ColumnHeader>
+              <Table.ColumnHeader color="gray.300" borderColor="gray.600">Sub Months</Table.ColumnHeader>
+              <Table.ColumnHeader color="gray.300" borderColor="gray.600">Last Seen</Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
           <Table.Body>
             <Table.Row>
-              <Table.Cell colSpan={5}>
+              <Table.Cell colSpan={5} borderColor="gray.700">
                 <Text color="gray.500" textAlign="center" py={4}>
                   No users tracked yet
                 </Text>

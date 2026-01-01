@@ -7,18 +7,18 @@ export default function Events(): React.JSX.Element {
         Event Log
       </Heading>
       <Box bg="gray.800" borderRadius="md" overflow="hidden">
-        <Table.Root size="sm">
+        <Table.Root size="sm" variant="line">
           <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeader>Time</Table.ColumnHeader>
-              <Table.ColumnHeader>Type</Table.ColumnHeader>
-              <Table.ColumnHeader>User</Table.ColumnHeader>
-              <Table.ColumnHeader>Details</Table.ColumnHeader>
+            <Table.Row bg="gray.700">
+              <Table.ColumnHeader color="gray.300" borderColor="gray.600">Time</Table.ColumnHeader>
+              <Table.ColumnHeader color="gray.300" borderColor="gray.600">Type</Table.ColumnHeader>
+              <Table.ColumnHeader color="gray.300" borderColor="gray.600">User</Table.ColumnHeader>
+              <Table.ColumnHeader color="gray.300" borderColor="gray.600">Details</Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
           <Table.Body>
             <Table.Row>
-              <Table.Cell colSpan={4}>
+              <Table.Cell colSpan={4} borderColor="gray.700">
                 <Text color="gray.500" textAlign="center" py={4}>
                   No events yet
                 </Text>
