@@ -7,6 +7,7 @@ import { eq, desc, inArray, sql, asc } from 'drizzle-orm'
 import { getTwitchStatus } from '../twitch'
 import { handleTwitchEvent, createTestEvent } from '../events/handlers'
 import { eventQueue } from '../events/queue'
+import { overlayServer } from '../server'
 import type {
   AuthStatus,
   Credentials,
@@ -19,13 +20,6 @@ import type {
   User
 } from '../../shared/ipc-types'
 import type { TwitchEvent, EventType } from '../../shared/event-types'
-
-// Placeholder for server status - will be implemented in server module
-let serverStatus: ServerStatus = {
-  running: false,
-  port: 9847,
-  connections: 0
-}
 
 // Placeholder for settings - will be stored in DB
 let appSettings: Settings = {
@@ -197,12 +191,11 @@ export function registerIpcHandlers(): void {
 
   // Server handlers
   ipcMain.handle('server:get-status', (): ServerStatus => {
-    return serverStatus
+    return overlayServer.getStatus()
   })
 
-  ipcMain.handle('server:restart', (): void => {
-    // Will be implemented when server module is created
-    console.log('Server restart requested')
+  ipcMain.handle('server:restart', async (): Promise<void> => {
+    await overlayServer.restart(appSettings.serverPort)
   })
 
   // Settings handlers
@@ -225,13 +218,15 @@ function notifyAuthChange(): void {
   }
 }
 
-// Update server status (called from server module)
-export function updateServerStatus(status: Partial<ServerStatus>): void {
-  serverStatus = { ...serverStatus, ...status }
-}
-
-// Initialize IPC handlers and auth on startup
+// Initialize IPC handlers, auth, and server on startup
 export async function initializeIpc(): Promise<void> {
   registerIpcHandlers()
   await initializeAuth()
+
+  // Start overlay server
+  try {
+    await overlayServer.start(appSettings.serverPort)
+  } catch (error) {
+    console.error('[IPC] Failed to start overlay server:', error)
+  }
 }

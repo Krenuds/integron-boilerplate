@@ -3,7 +3,8 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { initializeIpc } from './ipc/handlers'
-import { initDatabase } from './db'
+import { initDatabase, closeDatabase } from './db'
+import { overlayServer } from './server'
 
 function createWindow(): void {
   // Create the browser window.
@@ -73,5 +74,8 @@ app.on('window-all-closed', () => {
   }
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+// Cleanup on quit
+app.on('before-quit', async () => {
+  await overlayServer.stop()
+  closeDatabase()
+})
