@@ -36,6 +36,7 @@ export interface AuthStatus {
   authenticated: boolean
   broadcasterLogin: string | null
   broadcasterId: string | null
+  profileImageUrl: string | null
 }
 
 export function getAuthStatus(): AuthStatus {
@@ -47,14 +48,16 @@ export function getAuthStatus(): AuthStatus {
     return {
       authenticated: false,
       broadcasterLogin: null,
-      broadcasterId: null
+      broadcasterId: null,
+      profileImageUrl: null
     }
   }
 
   return {
     authenticated: true,
     broadcasterLogin: broadcaster?.login ?? null,
-    broadcasterId: broadcaster?.id ?? null
+    broadcasterId: broadcaster?.id ?? null,
+    profileImageUrl: broadcaster?.profileImageUrl ?? null
   }
 }
 
@@ -242,7 +245,7 @@ async function fetchAndStoreBroadcasterInfo(accessToken: string, clientId: strin
   const user = data.data[0]
 
   if (user) {
-    setBroadcaster(user.id, user.login)
+    setBroadcaster(user.id, user.login, user.profile_image_url)
   }
 }
 
@@ -262,6 +265,17 @@ export async function initializeAuth(): Promise<boolean> {
     if (provider) {
       // Auto-connect to Twitch if we have stored tokens
       await initializeTwitch()
+
+      // Fetch profile image if not stored (migration for existing sessions)
+      const broadcaster = getBroadcaster()
+      if (broadcaster && !broadcaster.profileImageUrl) {
+        try {
+          await fetchAndStoreBroadcasterInfo(tokens.accessToken, credentials.clientId)
+        } catch (err) {
+          console.error('Failed to fetch broadcaster profile image:', err)
+        }
+      }
+
       return true
     }
   }

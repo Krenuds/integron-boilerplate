@@ -123,4 +123,5 @@ export interface TwitchEvent extends BaseEvent {
   data: EventData
   username: string
   displayName: string
+  profileImageUrl?: string
 }

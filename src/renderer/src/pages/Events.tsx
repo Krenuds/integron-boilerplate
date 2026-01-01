@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Box, Heading, Text, Table, Input, HStack, Badge, Checkbox } from '@chakra-ui/react'
+import { Box, Heading, Text, Table, Input, HStack, Badge, Checkbox, Avatar } from '@chakra-ui/react'
 import { useEvents } from '../contexts/EventContext'
 import type { EventType, TwitchEvent } from '../../../shared/event-types'
 
@@ -227,8 +227,16 @@ export default function Events(): React.JSX.Element {
                       {event.type}
                     </Badge>
                   </Table.Cell>
-                  <Table.Cell borderColor="gray.700" color="gray.100" fontWeight="medium">
-                    {event.displayName}
+                  <Table.Cell borderColor="gray.700">
+                    <HStack gap={2}>
+                      <Avatar.Root size="xs">
+                        <Avatar.Image src={event.profileImageUrl} />
+                        <Avatar.Fallback name={event.displayName} />
+                      </Avatar.Root>
+                      <Text color="gray.100" fontWeight="medium">
+                        {event.displayName}
+                      </Text>
+                    </HStack>
                   </Table.Cell>
                   <Table.Cell borderColor="gray.700" color="gray.300" fontSize="sm">
                     <Text truncate maxW="400px">

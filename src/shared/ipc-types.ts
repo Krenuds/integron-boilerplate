@@ -7,6 +7,7 @@ export interface AuthStatus {
   authenticated: boolean
   broadcasterLogin: string | null
   broadcasterId: string | null
+  profileImageUrl: string | null
 }
 
 export interface Credentials {

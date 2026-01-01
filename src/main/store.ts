@@ -18,6 +18,7 @@ interface StoreSchema {
   tokens: TokenData | null
   broadcasterId: string | null
   broadcasterLogin: string | null
+  broadcasterProfileImageUrl: string | null
 }
 
 const store = new Store<StoreSchema>({
@@ -26,7 +27,8 @@ const store = new Store<StoreSchema>({
     credentials: null,
     tokens: null,
     broadcasterId: null,
-    broadcasterLogin: null
+    broadcasterLogin: null,
+    broadcasterProfileImageUrl: null
   }
 })
 
@@ -54,23 +56,28 @@ export function clearTokens(): void {
   store.delete('tokens')
 }
 
-export function getBroadcaster(): { id: string; login: string } | null {
+export function getBroadcaster(): { id: string; login: string; profileImageUrl: string | null } | null {
   const id = store.get('broadcasterId')
   const login = store.get('broadcasterLogin')
+  const profileImageUrl = store.get('broadcasterProfileImageUrl')
   if (id && login) {
-    return { id, login }
+    return { id, login, profileImageUrl }
   }
   return null
 }
 
-export function setBroadcaster(id: string, login: string): void {
+export function setBroadcaster(id: string, login: string, profileImageUrl?: string): void {
   store.set('broadcasterId', id)
   store.set('broadcasterLogin', login)
+  if (profileImageUrl) {
+    store.set('broadcasterProfileImageUrl', profileImageUrl)
+  }
 }
 
 export function clearBroadcaster(): void {
   store.delete('broadcasterId')
   store.delete('broadcasterLogin')
+  store.delete('broadcasterProfileImageUrl')
 }
 
 export function clearAll(): void {

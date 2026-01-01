@@ -4,6 +4,7 @@ import { users, events } from '../db/schema'
 import { eq, sql } from 'drizzle-orm'
 import { eventBus } from './bus'
 import { eventQueue } from './queue'
+import { getApiClient } from '../auth/twurple'
 import type { TwitchEvent, EventType } from '../../shared/event-types'
 
 // Process incoming Twitch events:
@@ -29,8 +30,13 @@ export async function handleTwitchEvent(event: TwitchEvent): Promise<void> {
 
   const db = getDatabase()
 
-  // Update or create user
-  await upsertUser(event.userId, event.username, event.displayName)
+  // Update or create user, get profile image
+  const profileImageUrl = await upsertUser(event.userId, event.username, event.displayName)
+
+  // Add profile image to event
+  if (profileImageUrl) {
+    event.profileImageUrl = profileImageUrl
+  }
 
   // Update user stats based on event type
   await updateUserStats(event)
@@ -56,14 +62,13 @@ export async function handleTwitchEvent(event: TwitchEvent): Promise<void> {
 
   // Broadcast to renderer windows
   broadcastToRenderer(event)
-  console.log(`[Handler] Broadcast complete`)
 }
 
 async function upsertUser(
   userId: string,
   username: string,
   displayName: string
-): Promise<void> {
+): Promise<string | undefined> {
   const db = getDatabase()
   const now = new Date()
 
@@ -78,6 +83,11 @@ async function upsertUser(
       })
       .where(eq(users.id, userId))
       .run()
+
+    // Return cached profile image if available
+    if (existing.profileImageUrl) {
+      return existing.profileImageUrl
+    }
   } else {
     db.insert(users)
       .values({
@@ -92,6 +102,25 @@ async function upsertUser(
       })
       .run()
   }
+
+  // Fetch profile image from Twitch API if not cached
+  const apiClient = getApiClient()
+  if (apiClient) {
+    try {
+      const user = await apiClient.users.getUserById(userId)
+      if (user?.profilePictureUrl) {
+        db.update(users)
+          .set({ profileImageUrl: user.profilePictureUrl })
+          .where(eq(users.id, userId))
+          .run()
+        return user.profilePictureUrl
+      }
+    } catch (err) {
+      console.error('[Handler] Failed to fetch profile image:', err)
+    }
+  }
+
+  return undefined
 }
 
 async function updateUserStats(event: TwitchEvent): Promise<void> {

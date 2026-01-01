@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Box, Heading, Stack, Field, Input, Button, Text, Spinner, Badge, Link, Code } from '@chakra-ui/react'
+import { Box, Heading, Stack, Field, Input, Button, Text, Spinner, Badge, Link, Code, HStack, Avatar } from '@chakra-ui/react'
 import { useAuth } from '../contexts/AuthContext'
 
 const CALLBACK_URI = 'http://localhost:9848/callback'
@@ -133,9 +133,15 @@ export default function Settings(): React.JSX.Element {
                   Status
                 </Text>
                 {status.authenticated ? (
-                  <Badge colorPalette="green" size="sm">
-                    Connected as {status.broadcasterLogin}
-                  </Badge>
+                  <HStack gap={2}>
+                    <Avatar.Root size="xs">
+                      <Avatar.Image src={status.profileImageUrl ?? undefined} />
+                      <Avatar.Fallback name={status.broadcasterLogin ?? undefined} />
+                    </Avatar.Root>
+                    <Badge colorPalette="green" size="sm">
+                      Connected as {status.broadcasterLogin}
+                    </Badge>
+                  </HStack>
                 ) : (
                   <Badge colorPalette="gray" size="sm">
                     Not connected
@@ -144,7 +150,7 @@ export default function Settings(): React.JSX.Element {
               </Box>
 
               {status.authenticated ? (
-                <Button colorPalette="red" variant="outline" size="sm" onClick={handleDisconnect}>
+                <Button colorPalette="red" size="sm" onClick={handleDisconnect} w="fit-content">
                   Disconnect
                 </Button>
               ) : (

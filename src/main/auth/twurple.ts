@@ -1,10 +1,16 @@
 import { RefreshingAuthProvider } from '@twurple/auth'
+import { ApiClient } from '@twurple/api'
 import { getCredentials, getTokens, setTokens, getBroadcaster } from '../store'
 
 let authProvider: RefreshingAuthProvider | null = null
+let apiClient: ApiClient | null = null
 
 export function getAuthProvider(): RefreshingAuthProvider | null {
   return authProvider
+}
+
+export function getApiClient(): ApiClient | null {
+  return apiClient
 }
 
 export function createAuthProvider(): RefreshingAuthProvider | null {
@@ -41,9 +47,13 @@ export function createAuthProvider(): RefreshingAuthProvider | null {
     scope: tokens.scope
   }, ['chat'])
 
+  // Create API client for Helix API calls
+  apiClient = new ApiClient({ authProvider })
+
   return authProvider
 }
 
 export function destroyAuthProvider(): void {
   authProvider = null
+  apiClient = null
 }

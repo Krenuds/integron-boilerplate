@@ -4,6 +4,7 @@ interface AuthStatus {
   authenticated: boolean
   broadcasterLogin: string | null
   broadcasterId: string | null
+  profileImageUrl: string | null
 }
 
 interface Credentials {
@@ -28,7 +29,8 @@ export function AuthProvider({ children }: { children: ReactNode }): React.JSX.E
   const [status, setStatus] = useState<AuthStatus>({
     authenticated: false,
     broadcasterLogin: null,
-    broadcasterId: null
+    broadcasterId: null,
+    profileImageUrl: null
   })
   const [credentials, setCredentials] = useState<Credentials | null>(null)
   const [isLoading, setIsLoading] = useState(true)

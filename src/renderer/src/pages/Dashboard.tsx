@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Box, Heading, Text, SimpleGrid, Stat, Badge, HStack, VStack } from '@chakra-ui/react'
+import { Box, Heading, Text, Badge, HStack, VStack, Avatar, Circle, Link } from '@chakra-ui/react'
+import { Link as RouterLink } from 'react-router-dom'
 import { useEvents } from '../contexts/EventContext'
 import { useAuth } from '../contexts/AuthContext'
 import type { TwitchEvent } from '../../../shared/event-types'
@@ -64,80 +65,66 @@ export default function Dashboard(): React.JSX.Element {
   // Get recent events (last 5)
   const recentEvents = events.slice(0, 5)
 
-  // Determine connection status
-  const getConnectionStatus = (): { label: string; color: string } => {
-    if (!authStatus.authenticated) {
-      return { label: 'Not Authenticated', color: 'red.400' }
-    }
-    if (twitchStatus.chat && twitchStatus.eventsub) {
-      return { label: 'Connected', color: 'green.400' }
-    }
-    if (twitchStatus.chat || twitchStatus.eventsub) {
-      return { label: 'Partial', color: 'yellow.400' }
-    }
-    return { label: 'Disconnected', color: 'red.400' }
-  }
-
-  const connectionStatus = getConnectionStatus()
-
   return (
     <Box>
       <Heading size="md" mb={4}>
         Dashboard
       </Heading>
 
-      {/* Status Cards */}
-      <SimpleGrid columns={3} gap={4} mb={6}>
-        <Stat.Root bg="gray.800" p={4} borderRadius="md">
-          <Stat.Label>Status</Stat.Label>
-          <Stat.ValueText color={connectionStatus.color}>{connectionStatus.label}</Stat.ValueText>
-          {authStatus.authenticated && twitchStatus.channel && (
-            <Stat.HelpText color="gray.400">#{twitchStatus.channel}</Stat.HelpText>
+      {/* Status Panel */}
+      <Box bg="gray.800" borderRadius="md" mb={6} overflow="hidden">
+        <Box bg="gray.700" px={4} py={2}>
+          <Heading size="sm">Status</Heading>
+        </Box>
+        <Box p={4}>
+          {authStatus.authenticated ? (
+            <>
+              <HStack gap={4} align="center" mb={4}>
+                {authStatus.profileImageUrl && (
+                  <Avatar.Root size="xl">
+                    <Avatar.Image src={authStatus.profileImageUrl} />
+                    <Avatar.Fallback name={authStatus.broadcasterLogin ?? undefined} />
+                  </Avatar.Root>
+                )}
+                {twitchStatus.channel && (
+                  <Text fontSize="xl" fontWeight="bold">#{twitchStatus.channel}</Text>
+                )}
+              </HStack>
+              <HStack gap={4} mb={4}>
+                <HStack gap={2}>
+                  <Circle size="10px" bg={authStatus.authenticated ? 'green.400' : 'red.400'} />
+                  <Text fontSize="sm" color="gray.400">Auth</Text>
+                </HStack>
+                <HStack gap={2}>
+                  <Circle size="10px" bg={twitchStatus.chat ? 'green.400' : 'red.400'} />
+                  <Text fontSize="sm" color="gray.400">Chat</Text>
+                </HStack>
+                <HStack gap={2}>
+                  <Circle size="10px" bg={twitchStatus.eventsub ? 'green.400' : 'red.400'} />
+                  <Text fontSize="sm" color="gray.400">EventSub</Text>
+                </HStack>
+              </HStack>
+              <HStack gap={6}>
+                <VStack align="flex-start" gap={0}>
+                  <Text fontSize="xs" color="gray.500">Users</Text>
+                  <Text fontSize="lg" fontWeight="bold">{userCount}</Text>
+                </VStack>
+                <VStack align="flex-start" gap={0}>
+                  <Text fontSize="xs" color="gray.500">Events Today</Text>
+                  <Text fontSize="lg" fontWeight="bold">{eventsToday}</Text>
+                </VStack>
+              </HStack>
+            </>
+          ) : (
+            <VStack align="flex-start" gap={2}>
+              <Text color="red.400" fontWeight="medium">Disconnected</Text>
+              <Link as={RouterLink} to="/settings" color="purple.400" fontSize="sm">
+                Go to Settings to connect your Twitch account →
+              </Link>
+            </VStack>
           )}
-        </Stat.Root>
-        <Stat.Root bg="gray.800" p={4} borderRadius="md">
-          <Stat.Label>Total Users</Stat.Label>
-          <Stat.ValueText>{userCount}</Stat.ValueText>
-        </Stat.Root>
-        <Stat.Root bg="gray.800" p={4} borderRadius="md">
-          <Stat.Label>Events Today</Stat.Label>
-          <Stat.ValueText>{eventsToday}</Stat.ValueText>
-        </Stat.Root>
-      </SimpleGrid>
-
-      {/* Connection Details */}
-      <SimpleGrid columns={3} gap={4} mb={6}>
-        <Box bg="gray.800" p={3} borderRadius="md">
-          <HStack justify="space-between">
-            <Text fontSize="sm" color="gray.400">
-              Chat
-            </Text>
-            <Badge colorPalette={twitchStatus.chat ? 'green' : 'red'}>
-              {twitchStatus.chat ? 'Connected' : 'Disconnected'}
-            </Badge>
-          </HStack>
         </Box>
-        <Box bg="gray.800" p={3} borderRadius="md">
-          <HStack justify="space-between">
-            <Text fontSize="sm" color="gray.400">
-              EventSub
-            </Text>
-            <Badge colorPalette={twitchStatus.eventsub ? 'green' : 'red'}>
-              {twitchStatus.eventsub ? 'Connected' : 'Disconnected'}
-            </Badge>
-          </HStack>
-        </Box>
-        <Box bg="gray.800" p={3} borderRadius="md">
-          <HStack justify="space-between">
-            <Text fontSize="sm" color="gray.400">
-              Auth
-            </Text>
-            <Badge colorPalette={authStatus.authenticated ? 'green' : 'red'}>
-              {authStatus.authenticated ? authStatus.broadcasterLogin : 'Not logged in'}
-            </Badge>
-          </HStack>
-        </Box>
-      </SimpleGrid>
+      </Box>
 
       {/* Recent Events */}
       <Box bg="gray.800" p={4} borderRadius="md">
