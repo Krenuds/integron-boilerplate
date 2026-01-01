@@ -1,4 +1,4 @@
-import { Box, Heading, SimpleGrid, Button, Textarea, VStack, Text } from '@chakra-ui/react'
+import { Box, Heading, SimpleGrid, Button, Textarea, Stack, Text } from '@chakra-ui/react'
 
 export default function TestPanel(): React.JSX.Element {
   return (
@@ -6,28 +6,28 @@ export default function TestPanel(): React.JSX.Element {
       <Heading size="md" mb={4}>
         Test Panel
       </Heading>
-      <SimpleGrid columns={2} spacing={4}>
+      <SimpleGrid columns={2} gap={4}>
         <Box bg="gray.800" p={4} borderRadius="md">
           <Text fontWeight="bold" mb={3}>
             Fire Test Event
           </Text>
-          <VStack spacing={2} align="stretch">
-            <Button size="sm" colorScheme="blue">
+          <Stack gap={2}>
+            <Button size="sm" colorPalette="blue">
               Chat Message
             </Button>
-            <Button size="sm" colorScheme="purple">
+            <Button size="sm" colorPalette="purple">
               Subscription
             </Button>
-            <Button size="sm" colorScheme="orange">
+            <Button size="sm" colorPalette="orange">
               Bits
             </Button>
-            <Button size="sm" colorScheme="green">
+            <Button size="sm" colorPalette="green">
               Follow
             </Button>
-            <Button size="sm" colorScheme="red">
+            <Button size="sm" colorPalette="red">
               Raid
             </Button>
-          </VStack>
+          </Stack>
         </Box>
         <Box bg="gray.800" p={4} borderRadius="md">
           <Text fontWeight="bold" mb={3}>
@@ -40,7 +40,7 @@ export default function TestPanel(): React.JSX.Element {
             mb={2}
             fontFamily="mono"
           />
-          <Button size="sm" colorScheme="gray">
+          <Button size="sm" colorPalette="gray">
             Send Custom Event
           </Button>
         </Box>

@@ -1,4 +1,4 @@
-import { Box, Heading, VStack, FormControl, FormLabel, Input, Button, Text } from '@chakra-ui/react'
+import { Box, Heading, Stack, Field, Input, Button, Text } from '@chakra-ui/react'
 
 export default function Settings(): React.JSX.Element {
   return (
@@ -7,27 +7,27 @@ export default function Settings(): React.JSX.Element {
         Settings
       </Heading>
       <Box bg="gray.800" p={4} borderRadius="md" maxW="400px">
-        <VStack spacing={4} align="stretch">
-          <FormControl>
-            <FormLabel>Client ID</FormLabel>
+        <Stack gap={4}>
+          <Field.Root>
+            <Field.Label>Client ID</Field.Label>
             <Input placeholder="Twitch Client ID" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Client Secret</FormLabel>
+          </Field.Root>
+          <Field.Root>
+            <Field.Label>Client Secret</Field.Label>
             <Input type="password" placeholder="Twitch Client Secret" />
-          </FormControl>
-          <Button colorScheme="purple" size="sm">
+          </Field.Root>
+          <Button colorPalette="purple" size="sm">
             Save Credentials
           </Button>
-          <Box borderTop="1px" borderColor="gray.700" pt={4} mt={2}>
+          <Box borderTop="1px solid" borderColor="gray.700" pt={4} mt={2}>
             <Text fontSize="sm" color="gray.500" mb={2}>
               Status: Not connected
             </Text>
-            <Button colorScheme="green" size="sm" isDisabled>
+            <Button colorPalette="green" size="sm" disabled>
               Connect to Twitch
             </Button>
           </Box>
-        </VStack>
+        </Stack>
       </Box>
     </Box>
   )

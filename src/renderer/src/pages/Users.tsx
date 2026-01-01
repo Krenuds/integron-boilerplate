@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react'
+import { Box, Heading, Text, Table } from '@chakra-ui/react'
 
 export default function Users(): React.JSX.Element {
   return (
@@ -7,26 +7,26 @@ export default function Users(): React.JSX.Element {
         Users
       </Heading>
       <Box bg="gray.800" borderRadius="md" overflow="hidden">
-        <Table size="sm">
-          <Thead>
-            <Tr>
-              <Th>Username</Th>
-              <Th>Messages</Th>
-              <Th>Bits</Th>
-              <Th>Sub Months</Th>
-              <Th>Last Seen</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr>
-              <Td colSpan={5}>
+        <Table.Root size="sm">
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeader>Username</Table.ColumnHeader>
+              <Table.ColumnHeader>Messages</Table.ColumnHeader>
+              <Table.ColumnHeader>Bits</Table.ColumnHeader>
+              <Table.ColumnHeader>Sub Months</Table.ColumnHeader>
+              <Table.ColumnHeader>Last Seen</Table.ColumnHeader>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell colSpan={5}>
                 <Text color="gray.500" textAlign="center" py={4}>
                   No users tracked yet
                 </Text>
-              </Td>
-            </Tr>
-          </Tbody>
-        </Table>
+              </Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table.Root>
       </Box>
     </Box>
   )
