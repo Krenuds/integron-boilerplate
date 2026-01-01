@@ -1,29 +1,15 @@
 @import './base.css';
 
+html,
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 #root {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.app {
-  text-align: center;
-}
-
-.app h1 {
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.app p {
-  color: var(--ev-c-text-2);
+  height: 100%;
+  width: 100%;
 }
