@@ -1,33 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import type { EventType, TwitchEvent } from '@shared/event-types'
 
-// Event types matching shared/event-types.ts
-export type EventType =
-  | 'chat'
-  | 'sub'
-  | 'resub'
-  | 'gift_sub'
-  | 'bits'
-  | 'follow'
-  | 'raid'
-  | 'redemption'
-  | 'hype_train_begin'
-  | 'hype_train_end'
-  | 'poll_begin'
-  | 'poll_end'
-  | 'prediction_begin'
-  | 'prediction_end'
-  | 'shoutout'
-
-export interface TwitchEvent {
-  id: number
-  type: EventType
-  userId: string
-  username: string
-  displayName: string
-  profileImageUrl?: string
-  data: Record<string, unknown>
-  createdAt: string
-}
+export type { EventType, TwitchEvent }
 
 interface WebSocketMessage {
   type: 'connected' | 'event'

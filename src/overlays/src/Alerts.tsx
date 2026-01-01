@@ -1,6 +1,16 @@
 import { createRoot } from 'react-dom/client'
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useEventSocket, TwitchEvent, EventType } from './hooks/useEventSocket'
+import type {
+  SubEventData,
+  ResubEventData,
+  GiftSubEventData,
+  BitsEventData,
+  RaidEventData,
+  RedemptionEventData,
+  HypeTrainBeginEventData,
+  ShoutoutEventData
+} from '@shared/event-types'
 
 // Parse URL params
 function getUrlParams(): { duration: number; animation: 'slide' | 'fade' | 'pop' } {
@@ -73,27 +83,41 @@ const alertStyles: Record<string, { title: string; color: string; gradient: stri
 }
 
 function getAlertMessage(event: TwitchEvent): string {
-  const data = event.data as Record<string, unknown>
-
   switch (event.type) {
-    case 'sub':
-      return `Tier ${String(data.tier || '1000').charAt(0)} subscription`
-    case 'resub':
+    case 'sub': {
+      const data = event.data as SubEventData
+      return `Tier ${data.tier.charAt(0)} subscription`
+    }
+    case 'resub': {
+      const data = event.data as ResubEventData
       return `${data.months} months subscribed!`
-    case 'gift_sub':
-      return `Gifted ${data.amount} sub${(data.amount as number) > 1 ? 's' : ''}!`
-    case 'bits':
+    }
+    case 'gift_sub': {
+      const data = event.data as GiftSubEventData
+      return `Gifted ${data.amount} sub${data.amount > 1 ? 's' : ''}!`
+    }
+    case 'bits': {
+      const data = event.data as BitsEventData
       return `${data.amount} bits cheered!`
+    }
     case 'follow':
       return 'Thanks for following!'
-    case 'raid':
+    case 'raid': {
+      const data = event.data as RaidEventData
       return `Incoming raid with ${data.viewers} viewers!`
-    case 'redemption':
-      return String(data.rewardTitle)
-    case 'hype_train_begin':
+    }
+    case 'redemption': {
+      const data = event.data as RedemptionEventData
+      return data.rewardTitle
+    }
+    case 'hype_train_begin': {
+      const data = event.data as HypeTrainBeginEventData
       return `Level ${data.level} - Let's go!`
-    case 'shoutout':
+    }
+    case 'shoutout': {
+      const data = event.data as ShoutoutEventData
       return `Check out ${data.targetUsername}!`
+    }
     default:
       return ''
   }

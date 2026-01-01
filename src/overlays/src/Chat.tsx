@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useEventSocket, TwitchEvent } from './hooks/useEventSocket'
+import type { ChatEventData } from '@shared/event-types'
 
 // Parse URL params
 function getUrlParams(): { max: number; fade: number } {
@@ -16,7 +17,6 @@ interface ChatMessage extends TwitchEvent {
 
 function ChatMessageItem({
   message,
-  fade,
   onFaded
 }: {
   message: ChatMessage
@@ -24,7 +24,7 @@ function ChatMessageItem({
   onFaded: (id: number) => void
 }) {
   const [opacity, setOpacity] = useState(1)
-  const data = message.data as { message?: string; color?: string; badges?: string[] }
+  const data = message.data as ChatEventData
 
   useEffect(() => {
     const now = Date.now()

@@ -1,6 +1,20 @@
 import { createRoot } from 'react-dom/client'
 import { useEffect, useRef, useMemo } from 'react'
 import { useEventSocket, TwitchEvent, EventType } from './hooks/useEventSocket'
+import type {
+  ChatEventData,
+  SubEventData,
+  ResubEventData,
+  GiftSubEventData,
+  BitsEventData,
+  RaidEventData,
+  RedemptionEventData,
+  HypeTrainBeginEventData,
+  HypeTrainEndEventData,
+  PollEventData,
+  PredictionEventData,
+  ShoutoutEventData
+} from '@shared/event-types'
 
 // Parse URL params
 function getUrlParams(): { max: number; types: EventType[] | undefined } {
@@ -31,39 +45,59 @@ const eventStyles: Record<EventType, { icon: string; color: string }> = {
 }
 
 function getEventDescription(event: TwitchEvent): string {
-  const data = event.data as Record<string, unknown>
-
   switch (event.type) {
-    case 'chat':
-      return String(data.message || '')
-    case 'sub':
-      return `New subscriber (Tier ${String(data.tier || '1').charAt(0)})`
-    case 'resub':
+    case 'chat': {
+      const data = event.data as ChatEventData
+      return data.message
+    }
+    case 'sub': {
+      const data = event.data as SubEventData
+      return `New subscriber (Tier ${data.tier.charAt(0)})`
+    }
+    case 'resub': {
+      const data = event.data as ResubEventData
       return `Resubscribed for ${data.months} months`
-    case 'gift_sub':
-      return `Gifted ${data.amount} sub${(data.amount as number) > 1 ? 's' : ''}`
-    case 'bits':
+    }
+    case 'gift_sub': {
+      const data = event.data as GiftSubEventData
+      return `Gifted ${data.amount} sub${data.amount > 1 ? 's' : ''}`
+    }
+    case 'bits': {
+      const data = event.data as BitsEventData
       return `Cheered ${data.amount} bits`
+    }
     case 'follow':
       return 'New follower'
-    case 'raid':
+    case 'raid': {
+      const data = event.data as RaidEventData
       return `Raided with ${data.viewers} viewers`
-    case 'redemption':
+    }
+    case 'redemption': {
+      const data = event.data as RedemptionEventData
       return `Redeemed: ${data.rewardTitle}`
-    case 'hype_train_begin':
+    }
+    case 'hype_train_begin': {
+      const data = event.data as HypeTrainBeginEventData
       return `Hype Train started! Level ${data.level}`
-    case 'hype_train_end':
+    }
+    case 'hype_train_end': {
+      const data = event.data as HypeTrainEndEventData
       return `Hype Train ended at level ${data.level}`
+    }
     case 'poll_begin':
-      return `Poll started: ${data.title}`
-    case 'poll_end':
-      return `Poll ended: ${data.title}`
+    case 'poll_end': {
+      const data = event.data as PollEventData
+      return `Poll ${event.type === 'poll_begin' ? 'started' : 'ended'}: ${data.title}`
+    }
     case 'prediction_begin':
-      return `Prediction started: ${data.title}`
-    case 'prediction_end':
-      return `Prediction ended: ${data.title}`
-    case 'shoutout':
+    case 'prediction_end': {
+      const data = event.data as PredictionEventData
+      return `Prediction ${event.type === 'prediction_begin' ? 'started' : 'ended'}: ${data.title}`
+    }
+    case 'shoutout': {
+      const data = event.data as ShoutoutEventData
       return `Shoutout to ${data.targetUsername}`
+    }
     default:
       return event.type
   }
