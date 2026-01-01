@@ -5,10 +5,12 @@ import Settings from './pages/Settings'
 import Events from './pages/Events'
 import Users from './pages/Users'
 import TestPanel from './pages/TestPanel'
+import { AuthProvider } from './contexts/AuthContext'
 
 function App(): React.JSX.Element {
   return (
-    <Routes>
+    <AuthProvider>
+      <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Dashboard />} />
         <Route path="settings" element={<Settings />} />
@@ -16,7 +18,8 @@ function App(): React.JSX.Element {
         <Route path="users" element={<Users />} />
         <Route path="test" element={<TestPanel />} />
       </Route>
-    </Routes>
+      </Routes>
+    </AuthProvider>
   )
 }
 
