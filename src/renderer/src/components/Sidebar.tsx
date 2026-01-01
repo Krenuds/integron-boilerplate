@@ -23,15 +23,16 @@ export default function Sidebar(): React.JSX.Element {
       <Text fontSize="lg" fontWeight="bold" mb={4} color="gray.100">
         Integron
       </Text>
-      <Separator mb={4} borderColor="gray.700" />
+      <Separator mb={2} borderColor="gray.700" />
       <Stack gap={1}>
         {navItems.map((item) => (
           <Button
             key={item.path}
             variant={location.pathname === item.path ? 'solid' : 'ghost'}
-            colorPalette={location.pathname === item.path ? 'purple' : 'gray'}
+            colorPalette="purple"
             justifyContent="flex-start"
             size="sm"
+            color={location.pathname === item.path ? undefined : 'gray.300'}
             onClick={() => navigate(item.path)}
           >
             {item.label}
