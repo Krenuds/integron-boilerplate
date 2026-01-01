@@ -5,3 +5,8 @@ out
 .eslintcache
 *.log*
 .claude/
+
+# Project-specific exclusions
+GIBLETRON-OVERVIEW.md
+logo.png
+GibletsFilled.png
