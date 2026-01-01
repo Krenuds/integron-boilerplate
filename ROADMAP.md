@@ -536,8 +536,8 @@
 - [x] Phase 5: Chakra UI + Router set up
 - [x] Phase 6: Settings page functional
 - [x] Phase 7: Twurple receiving events
-- [ ] Phase 8: All dashboard pages complete
-- [ ] Phase 9: HTTP + WebSocket server running
+- [x] Phase 8: All dashboard pages complete
+- [x] Phase 9: HTTP + WebSocket server running
 - [ ] Phase 10: All overlay pages working
 - [ ] Phase 11: Tray and logging implemented
 
