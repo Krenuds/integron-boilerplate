@@ -12,7 +12,11 @@ import type {
   ShoutoutEventData
 } from '@shared/event-types'
 
-// Parse URL params
+/**
+ * URL Parameters:
+ *   ?duration=5000  - Alert display time in ms (default: 5000)
+ *   ?animation=slide - Animation type: slide, fade, pop (default: slide)
+ */
 function getUrlParams(): { duration: number; animation: 'slide' | 'fade' | 'pop' } {
   const params = new URLSearchParams(window.location.search)
   const duration = parseInt(params.get('duration') || '5000', 10)

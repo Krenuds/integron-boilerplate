@@ -10,6 +10,15 @@ interface WebSocketMessage {
   timestamp: string
 }
 
+/**
+ * Options for the useEventSocket hook.
+ *
+ * @property url - WebSocket server URL (default: ws://localhost:9847)
+ * @property reconnectDelay - Delay between reconnect attempts in ms (default: 3000)
+ * @property maxReconnectAttempts - Max reconnection attempts before giving up (default: 10)
+ * @property onEvent - Callback fired immediately when an event is received
+ * @property eventTypes - Filter to only receive specific event types (default: all)
+ */
 interface UseEventSocketOptions {
   url?: string
   reconnectDelay?: number
@@ -26,6 +35,22 @@ interface UseEventSocketReturn {
 
 const DEFAULT_WS_URL = 'ws://localhost:9847'
 
+/**
+ * React hook for connecting to the Integron WebSocket server.
+ *
+ * Automatically connects on mount, handles reconnection, and accumulates events.
+ *
+ * @example
+ * // Listen for all events
+ * const { connected, events } = useEventSocket()
+ *
+ * @example
+ * // Filter specific event types and handle immediately
+ * const { connected } = useEventSocket({
+ *   eventTypes: ['sub', 'bits', 'raid'],
+ *   onEvent: (event) => console.log('Got event:', event)
+ * })
+ */
 export function useEventSocket(options: UseEventSocketOptions = {}): UseEventSocketReturn {
   const {
     url = DEFAULT_WS_URL,

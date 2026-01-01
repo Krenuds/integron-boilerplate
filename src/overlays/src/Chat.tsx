@@ -3,7 +3,11 @@ import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useEventSocket, TwitchEvent } from './hooks/useEventSocket'
 import type { ChatEventData } from '@shared/event-types'
 
-// Parse URL params
+/**
+ * URL Parameters:
+ *   ?max=10    - Max messages to display (default: 10)
+ *   ?fade=30000 - Message lifetime in ms before fade-out (default: 30000)
+ */
 function getUrlParams(): { max: number; fade: number } {
   const params = new URLSearchParams(window.location.search)
   const max = parseInt(params.get('max') || '10', 10)

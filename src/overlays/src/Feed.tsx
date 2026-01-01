@@ -16,7 +16,11 @@ import type {
   ShoutoutEventData
 } from '@shared/event-types'
 
-// Parse URL params
+/**
+ * URL Parameters:
+ *   ?max=50          - Max events to display (default: 50)
+ *   ?types=sub,follow - Filter event types, comma-separated (default: all)
+ */
 function getUrlParams(): { max: number; types: EventType[] | undefined } {
   const params = new URLSearchParams(window.location.search)
   const max = parseInt(params.get('max') || '50', 10)
