@@ -1,5 +1,5 @@
 import { RefreshingAuthProvider } from '@twurple/auth'
-import { getCredentials, getTokens, setTokens } from '../store'
+import { getCredentials, getTokens, setTokens, getBroadcaster } from '../store'
 
 let authProvider: RefreshingAuthProvider | null = null
 
@@ -10,6 +10,7 @@ export function getAuthProvider(): RefreshingAuthProvider | null {
 export function createAuthProvider(): RefreshingAuthProvider | null {
   const credentials = getCredentials()
   const tokens = getTokens()
+  const broadcaster = getBroadcaster()
 
   if (!credentials || !tokens) {
     return null
@@ -30,13 +31,15 @@ export function createAuthProvider(): RefreshingAuthProvider | null {
     })
   })
 
-  authProvider.addUser(tokens.accessToken, {
+  // Add user with token data and intents for chat and eventsub
+  const userId = broadcaster?.id ?? tokens.accessToken
+  authProvider.addUser(userId, {
     accessToken: tokens.accessToken,
     refreshToken: tokens.refreshToken,
     expiresIn: tokens.expiresIn,
     obtainmentTimestamp: tokens.obtainmentTimestamp,
     scope: tokens.scope
-  })
+  }, ['chat'])
 
   return authProvider
 }

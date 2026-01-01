@@ -63,6 +63,14 @@ export interface ServerStatus {
   connections: number
 }
 
+// Twitch connection status
+export interface TwitchStatus {
+  authenticated: boolean
+  chat: boolean
+  eventsub: boolean
+  channel: string | null
+}
+
 // Settings
 export interface Settings {
   serverPort: number
@@ -81,6 +89,7 @@ export interface IpcChannels {
   // Events
   'events:get-recent': { params: EventListParams; result: EventListResult }
   'events:test-fire': { params: { type: EventType; data?: unknown }; result: void }
+  'events:get-queue': { params: number; result: TwitchEvent[] }
 
   // Users
   'users:get-all': { params: UserListParams; result: UserListResult }
@@ -90,6 +99,9 @@ export interface IpcChannels {
   // Server
   'server:get-status': { params: void; result: ServerStatus }
   'server:restart': { params: void; result: void }
+
+  // Twitch
+  'twitch:get-status': { params: void; result: TwitchStatus }
 
   // Settings
   'settings:get': { params: void; result: Settings }

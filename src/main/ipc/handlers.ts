@@ -4,6 +4,9 @@ import { getCredentials, setCredentials } from '../store'
 import { getDatabase } from '../db'
 import { users, events } from '../db/schema'
 import { eq, desc, inArray, sql, asc } from 'drizzle-orm'
+import { getTwitchStatus } from '../twitch'
+import { handleTwitchEvent, createTestEvent } from '../events/handlers'
+import { eventQueue } from '../events/queue'
 import type {
   AuthStatus,
   Credentials,
@@ -40,8 +43,8 @@ export function registerIpcHandlers(): void {
     await startOAuthFlow()
   })
 
-  ipcMain.handle('auth:logout', (): void => {
-    logout()
+  ipcMain.handle('auth:logout', async (): Promise<void> => {
+    await logout()
     notifyAuthChange()
   })
 
@@ -96,21 +99,22 @@ export function registerIpcHandlers(): void {
 
   ipcMain.handle(
     'events:test-fire',
-    (_event, params: { type: EventType; data?: unknown }): void => {
-      // Broadcast test event to all renderer windows and WebSocket clients
-      const testEvent: TwitchEvent = {
-        id: Date.now(),
-        type: params.type,
-        userId: 'test-user',
-        data: (params.data as TwitchEvent['data']) ?? {},
-        createdAt: new Date().toISOString(),
-        username: 'test_user',
-        displayName: 'Test User'
-      }
-
-      broadcastEvent(testEvent)
+    async (_event, params: { type: EventType; data?: unknown }): Promise<void> => {
+      // Create and process a test event through the full pipeline
+      const testEvent = createTestEvent(params.type, params.data)
+      await handleTwitchEvent(testEvent)
     }
   )
+
+  // Get Twitch connection status
+  ipcMain.handle('twitch:get-status', () => {
+    return getTwitchStatus()
+  })
+
+  // Get recent events from memory queue
+  ipcMain.handle('events:get-queue', (_event, count: number = 50): TwitchEvent[] => {
+    return eventQueue.getRecent(count)
+  })
 
   // User handlers
   ipcMain.handle('users:get-all', (_event, params: UserListParams): UserListResult => {
@@ -212,14 +216,6 @@ export function registerIpcHandlers(): void {
   })
 }
 
-// Helper to broadcast events to all renderer windows
-function broadcastEvent(event: TwitchEvent): void {
-  const windows = BrowserWindow.getAllWindows()
-  for (const win of windows) {
-    win.webContents.send('event:new', event)
-  }
-}
-
 // Helper to notify auth state changes
 function notifyAuthChange(): void {
   const status = getAuthStatus()
@@ -234,8 +230,8 @@ export function updateServerStatus(status: Partial<ServerStatus>): void {
   serverStatus = { ...serverStatus, ...status }
 }
 
-// Initialize auth on startup
-export function initializeIpc(): void {
+// Initialize IPC handlers and auth on startup
+export async function initializeIpc(): Promise<void> {
   registerIpcHandlers()
-  initializeAuth()
+  await initializeAuth()
 }

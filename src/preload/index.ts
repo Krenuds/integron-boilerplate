@@ -33,6 +33,12 @@ const api = {
   getServerStatus: () => invoke('server:get-status'),
   restartServer: () => invoke('server:restart'),
 
+  // Twitch
+  getTwitchStatus: () => invoke('twitch:get-status'),
+
+  // Event queue (in-memory)
+  getEventQueue: (count: number = 50) => invoke('events:get-queue', count),
+
   // Settings
   getSettings: () => invoke('settings:get'),
   updateSettings: (settings: IpcParams<'settings:update'>) => invoke('settings:update', settings),

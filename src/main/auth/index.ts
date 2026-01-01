@@ -1,4 +1,4 @@
-import { shell } from 'electron'
+import { shell, BrowserWindow } from 'electron'
 import { createServer, Server } from 'http'
 import { parse } from 'url'
 import {
@@ -11,6 +11,7 @@ import {
   getTokens
 } from '../store'
 import { createAuthProvider, destroyAuthProvider, getAuthProvider } from './twurple'
+import { initializeTwitch, disconnectTwitch } from '../twitch'
 
 const REDIRECT_PORT = 9848
 const REDIRECT_URI = `http://localhost:${REDIRECT_PORT}/callback`
@@ -217,6 +218,12 @@ async function exchangeCodeForTokens(code: string): Promise<void> {
 
   // Initialize auth provider with new tokens
   createAuthProvider()
+
+  // Connect to Twitch chat and EventSub
+  await initializeTwitch()
+
+  // Notify renderer of auth change
+  notifyAuthChange()
 }
 
 async function fetchAndStoreBroadcasterInfo(accessToken: string, clientId: string): Promise<void> {
@@ -239,20 +246,34 @@ async function fetchAndStoreBroadcasterInfo(accessToken: string, clientId: strin
   }
 }
 
-export function logout(): void {
+export async function logout(): Promise<void> {
+  await disconnectTwitch()
   destroyAuthProvider()
   clearTokens()
   clearBroadcaster()
 }
 
-export function initializeAuth(): boolean {
+export async function initializeAuth(): Promise<boolean> {
   const tokens = getTokens()
   const credentials = getCredentials()
 
   if (tokens && credentials) {
     const provider = createAuthProvider()
-    return provider !== null
+    if (provider) {
+      // Auto-connect to Twitch if we have stored tokens
+      await initializeTwitch()
+      return true
+    }
   }
 
   return false
+}
+
+// Notify all renderer windows of auth state change
+function notifyAuthChange(): void {
+  const status = getAuthStatus()
+  const windows = BrowserWindow.getAllWindows()
+  for (const win of windows) {
+    win.webContents.send('auth:changed', status)
+  }
 }
