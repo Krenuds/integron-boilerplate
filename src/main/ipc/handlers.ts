@@ -186,6 +186,8 @@ export function registerIpcHandlers(): void {
 
   ipcMain.handle('users:delete', (_event, id: string): void => {
     const db = getDatabase()
+    // Delete associated events first to avoid foreign key constraint
+    db.delete(events).where(eq(events.userId, id)).run()
     db.delete(users).where(eq(users.id, id)).run()
   })
 
