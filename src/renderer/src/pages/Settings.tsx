@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Box, Heading, Stack, Field, Input, Button, Text, Spinner, Badge } from '@chakra-ui/react'
+import { Box, Heading, Stack, Field, Input, Button, Text, Spinner, Badge, Link, Code } from '@chakra-ui/react'
 import { useAuth } from '../contexts/AuthContext'
+
+const CALLBACK_URI = 'http://localhost:9848/callback'
+const TWITCH_CONSOLE_URL = 'https://dev.twitch.tv/console/apps'
 
 export default function Settings(): React.JSX.Element {
   const { status, credentials, isLoading, error, saveCredentials, startLogin, logout, refreshStatus } =
@@ -71,8 +74,23 @@ export default function Settings(): React.JSX.Element {
       <Heading size="md" mb={4}>
         Settings
       </Heading>
-      <Box bg="gray.800" p={4} borderRadius="md" maxW="400px">
+      <Box bg="gray.800" p={4} borderRadius="md" maxW="500px">
         <Stack gap={4}>
+          <Box bg="gray.750" p={3} borderRadius="md" borderLeft="3px solid" borderColor="purple.500">
+            <Text fontSize="sm" color="gray.300" mb={2}>
+              Create a Twitch application at the{' '}
+              <Link href={TWITCH_CONSOLE_URL} color="purple.300" target="_blank">
+                Twitch Developer Console
+              </Link>
+            </Text>
+            <Text fontSize="sm" color="gray.400" mb={1}>
+              Set the OAuth Redirect URL to:
+            </Text>
+            <Code fontSize="xs" p={1} bg="gray.900" color="green.300">
+              {CALLBACK_URI}
+            </Code>
+          </Box>
+
           <Field.Root>
             <Field.Label>Client ID</Field.Label>
             <Input
