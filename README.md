@@ -84,28 +84,20 @@ Overlays auto-connect via WebSocket and update in real-time.
 
 ## Commands
 
-| Command | Purpose |
-|---------|---------|
-| `npm run dev` | Development with hot reload |
-| `npm run build` | Production build |
-| `npm run build:win` | Windows installer |
-| `npm run build:mac` | macOS DMG |
-| `npm run build:linux` | Linux packages |
-| `npm run typecheck` | TypeScript checks |
-| `npm run lint` | ESLint |
-| `npm run format` | Prettier |
+```bash
+npm run dev           # Start development
+npm run build         # Production build
+npm run build:win     # Windows installer
+npm run build:mac     # macOS DMG
+npm run build:linux   # Linux packages
+npm run typecheck     # TypeScript checks
+npm run lint          # ESLint
+npm run format        # Prettier
+```
 
 ## Documentation
 
-| Guide | Description |
-|-------|-------------|
-| [Architecture](docs/architecture.md) | System design, file structure |
-| [Database](docs/database.md) | Schema, queries, migrations |
-| [Overlays](docs/overlays.md) | Building custom overlays |
-| [IPC Channels](docs/ipc.md) | Main/renderer communication |
-| [WebSocket](docs/websocket.md) | Event protocol |
-| [Twitch](docs/twitch.md) | OAuth, scopes, EventSub |
-| [Configuration](docs/configuration.md) | Settings, logging |
+[Architecture](docs/architecture.md) · [Database](docs/database.md) · [Overlays](docs/overlays.md) · [IPC](docs/ipc.md) · [WebSocket](docs/websocket.md) · [Twitch](docs/twitch.md) · [Configuration](docs/configuration.md)
 
 ## License
 
