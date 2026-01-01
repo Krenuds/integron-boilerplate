@@ -11,10 +11,13 @@
 | 5     | UI Framework Setup         | Phase 1        |
 | 6     | Settings Page              | Phases 3, 4, 5 |
 | 7     | Twurple Event System       | Phases 3, 6    |
-| 8     | HTTP Server & WebSocket    | Phases 2, 7    |
-| 9     | Dashboard Pages            | Phases 4, 5, 7 |
-| 10    | Overlay Pages              | Phase 8        |
-| 11    | System Tray & Logging      | Phase 8        |
+| 8     | Dashboard Pages            | Phases 4, 5, 7 |
+| 9     | HTTP Server & WebSocket    | Phases 2, 7    |
+| 10    | Overlay Pages              | Phase 9        |
+| 11    | System Tray & Logging      | Phase 9        |
+
+> **Note:** Phases 8 and 9 were swapped from the original plan. Dashboard pages come first
+> to provide immediate visual feedback and a working Test Panel for development.
 
 ---
 
@@ -324,7 +327,61 @@
 
 ---
 
-## Phase 8: HTTP Server & WebSocket
+## Phase 8: Dashboard Pages
+
+**Goal**: Complete all dashboard page functionality with visual feedback.
+
+### Tasks
+
+1. Create event context (`src/renderer/src/contexts/EventContext.tsx`):
+   - Live event subscription via IPC
+   - Recent events state
+   - Real-time updates from main process
+
+2. Build Dashboard page:
+   - Connection status cards (Twitch, Chat, EventSub)
+   - Stats display (users, events today)
+   - Recent event preview
+
+3. Build Event Log page:
+   - Real-time event list
+   - Type filter checkboxes
+   - Username search
+   - Timestamps
+
+4. Build Users page:
+   - Paginated user table
+   - Sort controls
+   - User detail modal
+   - Delete functionality
+
+5. Build Test Panel page:
+   - Event type buttons (wired to IPC)
+   - JSON payload editor
+   - Fire event button
+   - Visual confirmation of fired events
+
+### Files Created
+
+- `src/renderer/src/contexts/EventContext.tsx`
+
+### Files Modified
+
+- `src/renderer/src/pages/Dashboard.tsx`
+- `src/renderer/src/pages/Events.tsx`
+- `src/renderer/src/pages/Users.tsx`
+- `src/renderer/src/pages/TestPanel.tsx`
+
+### Verification
+
+- Dashboard shows live Twitch connection status
+- Event log updates in real-time
+- Users table is functional
+- Test events fire and appear in event log
+
+---
+
+## Phase 9: HTTP Server & WebSocket
 
 **Goal**: Serve overlays and broadcast events in real-time.
 
@@ -337,7 +394,6 @@
 2. Create API routes (`src/main/server/routes.ts`):
    - `GET /api/events` - recent events
    - `GET /api/users` - user list
-   - OAuth callback route
 
 3. Create WebSocket handler (`src/main/server/websocket.ts`):
    - Track connected clients
@@ -364,58 +420,6 @@
 - API endpoints return data
 - WebSocket accepts connections
 - Events broadcast to clients
-
----
-
-## Phase 9: Dashboard Pages
-
-**Goal**: Complete all dashboard page functionality.
-
-### Tasks
-
-1. Create event context (`src/renderer/src/contexts/EventContext.tsx`):
-   - Live event subscription
-   - Recent events state
-
-2. Build Dashboard page:
-   - Connection status cards
-   - Stats display
-   - Recent event preview
-
-3. Build Event Log page:
-   - Real-time event list
-   - Type filter checkboxes
-   - Username search
-   - Timestamps
-
-4. Build Users page:
-   - Paginated user table
-   - Sort controls
-   - User detail modal
-   - Delete functionality
-
-5. Build Test Panel page:
-   - Event type buttons
-   - JSON payload editor
-   - Fire event button
-
-### Files Created
-
-- `src/renderer/src/contexts/EventContext.tsx`
-
-### Files Modified
-
-- `src/renderer/src/pages/Dashboard.tsx`
-- `src/renderer/src/pages/Events.tsx`
-- `src/renderer/src/pages/Users.tsx`
-- `src/renderer/src/pages/TestPanel.tsx`
-
-### Verification
-
-- Dashboard shows live status
-- Event log updates in real-time
-- Users table is functional
-- Test events fire and appear
 
 ---
 
@@ -525,15 +529,15 @@
 
 ## Completion Checklist
 
-- [ ] Phase 1: Dependencies installed, build configured
-- [ ] Phase 2: Database operational with backups
-- [ ] Phase 3: OAuth flow complete, tokens persisted
-- [ ] Phase 4: Typed IPC working
-- [ ] Phase 5: Chakra UI + Router set up
-- [ ] Phase 6: Settings page functional
-- [ ] Phase 7: Twurple receiving events
-- [ ] Phase 8: HTTP + WebSocket server running
-- [ ] Phase 9: All dashboard pages complete
+- [x] Phase 1: Dependencies installed, build configured
+- [x] Phase 2: Database operational with backups
+- [x] Phase 3: OAuth flow complete, tokens persisted
+- [x] Phase 4: Typed IPC working
+- [x] Phase 5: Chakra UI + Router set up
+- [x] Phase 6: Settings page functional
+- [x] Phase 7: Twurple receiving events
+- [ ] Phase 8: All dashboard pages complete
+- [ ] Phase 9: HTTP + WebSocket server running
 - [ ] Phase 10: All overlay pages working
 - [ ] Phase 11: Tray and logging implemented
 
