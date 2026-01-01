@@ -1,4 +1,6 @@
 import { ipcMain, BrowserWindow } from 'electron'
+import { readdirSync, existsSync } from 'fs'
+import { join, dirname, basename } from 'path'
 import { getAuthStatus, startOAuthFlow, logout, initializeAuth } from '../auth'
 import { getCredentials, setCredentials } from '../store'
 import { getDatabase } from '../db'
@@ -17,7 +19,8 @@ import type {
   EventListResult,
   ServerStatus,
   Settings,
-  User
+  User,
+  OverlayInfo
 } from '../../shared/ipc-types'
 import type { TwitchEvent, EventType } from '../../shared/event-types'
 
@@ -194,6 +197,35 @@ export function registerIpcHandlers(): void {
   // Server handlers
   ipcMain.handle('server:get-status', (): ServerStatus => {
     return overlayServer.getStatus()
+  })
+
+  ipcMain.handle('server:get-overlays', (): OverlayInfo[] => {
+    const status = overlayServer.getStatus()
+    const port = status.port
+
+    // Get overlay directory path (out/overlays from main process location)
+    const outDir = dirname(__dirname) // out/main -> out
+    const overlayPath = join(outDir, 'overlays')
+
+    if (!existsSync(overlayPath)) {
+      return []
+    }
+
+    try {
+      const files = readdirSync(overlayPath)
+      const htmlFiles = files.filter((f) => f.endsWith('.html'))
+
+      return htmlFiles.map((file) => {
+        const name = basename(file, '.html')
+        const displayName = name.charAt(0).toUpperCase() + name.slice(1)
+        const path = `/overlay/${file}`
+        const url = `http://localhost:${port}${path}`
+
+        return { name, displayName, path, url }
+      })
+    } catch {
+      return []
+    }
   })
 
   ipcMain.handle('server:restart', async (): Promise<void> => {

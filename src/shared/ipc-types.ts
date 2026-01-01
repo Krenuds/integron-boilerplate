@@ -64,6 +64,14 @@ export interface ServerStatus {
   connections: number
 }
 
+// Overlay info for discovery
+export interface OverlayInfo {
+  name: string // e.g., "alerts", "feed", "chat"
+  displayName: string // e.g., "Alerts", "Feed", "Chat"
+  path: string // e.g., "/overlay/alerts.html"
+  url: string // e.g., "http://localhost:9847/overlay/alerts.html"
+}
+
 // Twitch connection status
 export interface TwitchStatus {
   authenticated: boolean
@@ -99,6 +107,7 @@ export interface IpcChannels {
 
   // Server
   'server:get-status': { params: void; result: ServerStatus }
+  'server:get-overlays': { params: void; result: OverlayInfo[] }
   'server:restart': { params: void; result: void }
 
   // Twitch

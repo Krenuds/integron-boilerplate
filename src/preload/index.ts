@@ -31,6 +31,7 @@ const api = {
 
   // Server
   getServerStatus: () => invoke('server:get-status'),
+  getOverlays: () => invoke('server:get-overlays'),
   restartServer: () => invoke('server:restart'),
 
   // Twitch

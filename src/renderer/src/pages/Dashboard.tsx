@@ -3,6 +3,7 @@ import { Box, Heading, Text, Badge, HStack, VStack, Avatar, Circle } from '@chak
 import { Link as RouterLink } from 'react-router-dom'
 import { useEvents } from '../contexts/EventContext'
 import { useAuth } from '../contexts/AuthContext'
+import OverlayLinks from '../components/OverlayLinks'
 import type { TwitchEvent } from '../../../shared/event-types'
 
 function formatTime(dateString: string): string {
@@ -67,10 +68,6 @@ export default function Dashboard(): React.JSX.Element {
 
   return (
     <Box>
-      <Heading size="md" mb={4}>
-        Dashboard
-      </Heading>
-
       {/* Status Panel */}
       <Box bg="gray.800" borderRadius="md" mb={6} overflow="hidden">
         <Box bg="gray.700" px={4} py={2}>
@@ -124,6 +121,11 @@ export default function Dashboard(): React.JSX.Element {
             </VStack>
           )}
         </Box>
+      </Box>
+
+      {/* Overlay Links */}
+      <Box mb={6}>
+        <OverlayLinks />
       </Box>
 
       {/* Recent Events */}
