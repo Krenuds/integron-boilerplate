@@ -1,14 +1,38 @@
+# Dependencies
 node_modules
+
+# Build output
 dist
 out
-.DS_Store
-.eslintcache
-*.log*
-.claude/
 
-# Project-specific exclusions
-GIBLETRON-OVERVIEW.md
-.GIBLETRON-OVERVIEW.md
-.test_users.json
-logo.png
-GibletsFilled.png
+# Database
+*.db
+*.sqlite
+*.sqlite3
+backups/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+*.log.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE/Editor
+.idea
+*.swp
+*.swo
+
+# Cache
+.eslintcache
+*.local
+.cache
+
+# Claude Code
+.claude
