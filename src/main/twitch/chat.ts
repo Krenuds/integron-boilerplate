@@ -33,6 +33,8 @@ export async function connectChat(
 
   // Chat messages
   chatClient.onMessage((_channel, _user, message, msg) => {
+    console.log(`[Chat] Message from ${msg.userInfo.displayName}: ${message.slice(0, 50)}`)
+
     const eventData: ChatEventData = {
       message,
       badges: Array.from(msg.userInfo.badges.keys()),
@@ -55,7 +57,9 @@ export async function connectChat(
       createdAt: new Date().toISOString()
     }
 
-    handleTwitchEvent(event)
+    handleTwitchEvent(event).catch((err) => {
+      console.error('[Chat] Failed to handle event:', err)
+    })
   })
 
   // Subscriptions via chat (as backup to EventSub)

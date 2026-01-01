@@ -25,6 +25,8 @@ const PERSISTENT_EVENTS: EventType[] = [
 ]
 
 export async function handleTwitchEvent(event: TwitchEvent): Promise<void> {
+  console.log(`[Handler] Processing ${event.type} event from ${event.displayName}`)
+
   const db = getDatabase()
 
   // Update or create user
@@ -47,12 +49,14 @@ export async function handleTwitchEvent(event: TwitchEvent): Promise<void> {
 
   // Add to in-memory queue
   eventQueue.push(event)
+  console.log(`[Handler] Queue size: ${eventQueue.getRecent(1000).length}`)
 
   // Emit to event bus
   eventBus.emitEvent(event)
 
   // Broadcast to renderer windows
   broadcastToRenderer(event)
+  console.log(`[Handler] Broadcast complete`)
 }
 
 async function upsertUser(
