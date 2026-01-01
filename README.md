@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Build stream overlays, alerts, and chat integrations without wrestling with Twitch's API complexity.
+  Build stream overlays, alerts, and chat integrations without wrestling with Twitch's API complexity. Deal with mine instead.
 </p>
 
 ---
