@@ -97,7 +97,7 @@ npm run format        # Prettier
 
 ## Documentation
 
-[Architecture](docs/architecture.md) · [Database](docs/database.md) · [Overlays](docs/overlays.md) · [IPC](docs/ipc.md) · [WebSocket](docs/websocket.md) · [Twitch](docs/twitch.md) · [Configuration](docs/configuration.md)
+[**Getting Started**](docs/GETTING_STARTED.md) · [Architecture](docs/architecture.md) · [Database](docs/database.md) · [Overlays](docs/overlays.md) · [IPC](docs/ipc.md) · [WebSocket](docs/websocket.md) · [Twitch](docs/twitch.md) · [Configuration](docs/configuration.md)
 
 ## License
 
