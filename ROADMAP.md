@@ -2,19 +2,19 @@
 
 ## Phase Overview
 
-| Phase | Focus | Dependencies |
-|-------|-------|--------------|
-| 1 | Dependencies & Build Setup | None |
-| 2 | Database Layer | Phase 1 |
-| 3 | Authentication System | Phases 1, 2 |
-| 4 | Typed IPC Layer | Phase 1 |
-| 5 | UI Framework Setup | Phase 1 |
-| 6 | Settings Page | Phases 3, 4, 5 |
-| 7 | Twurple Event System | Phases 3, 6 |
-| 8 | HTTP Server & WebSocket | Phases 2, 7 |
-| 9 | Dashboard Pages | Phases 4, 5, 7 |
-| 10 | Overlay Pages | Phase 8 |
-| 11 | System Tray & Logging | Phase 8 |
+| Phase | Focus                      | Dependencies   |
+| ----- | -------------------------- | -------------- |
+| 1     | Dependencies & Build Setup | None           |
+| 2     | Database Layer             | Phase 1        |
+| 3     | Authentication System      | Phases 1, 2    |
+| 4     | Typed IPC Layer            | Phase 1        |
+| 5     | UI Framework Setup         | Phase 1        |
+| 6     | Settings Page              | Phases 3, 4, 5 |
+| 7     | Twurple Event System       | Phases 3, 6    |
+| 8     | HTTP Server & WebSocket    | Phases 2, 7    |
+| 9     | Dashboard Pages            | Phases 4, 5, 7 |
+| 10    | Overlay Pages              | Phase 8        |
+| 11    | System Tray & Logging      | Phase 8        |
 
 ---
 
@@ -25,6 +25,7 @@
 ### Tasks
 
 1. Install production dependencies:
+
    ```
    @chakra-ui/react @emotion/react @emotion/styled framer-motion
    react-router-dom
@@ -35,6 +36,7 @@
    ```
 
 2. Install dev dependencies:
+
    ```
    drizzle-kit
    @types/better-sqlite3 @types/express @types/ws
@@ -48,11 +50,13 @@
    - Add better-sqlite3 types
 
 ### Files Modified
+
 - `package.json`
 - `electron.vite.config.ts`
 - `tsconfig.node.json`
 
 ### Verification
+
 - `npm install` completes without errors
 - `npm run dev` starts successfully
 
@@ -81,12 +85,14 @@
 4. Configure drizzle-kit for migrations
 
 ### Files Created
+
 - `src/main/db/schema.ts`
 - `src/main/db/index.ts`
 - `src/main/db/backup.ts`
 - `drizzle.config.ts`
 
 ### Verification
+
 - Database file created in app data directory
 - Tables created successfully
 - Backup created on startup
@@ -120,11 +126,13 @@
    - Complete token exchange
 
 ### Files Created
+
 - `src/main/store.ts`
 - `src/main/auth/index.ts`
 - `src/main/auth/twurple.ts`
 
 ### Verification
+
 - Can open Twitch auth page
 - Callback received and processed
 - Tokens stored and retrievable
@@ -158,15 +166,18 @@
    - Connect to auth, db, events
 
 ### Files Created
+
 - `src/shared/ipc-types.ts`
 - `src/shared/event-types.ts`
 - `src/main/ipc/handlers.ts`
 
 ### Files Modified
+
 - `src/preload/index.ts`
 - `src/preload/index.d.ts`
 
 ### Verification
+
 - TypeScript catches type mismatches
 - IPC calls work from renderer
 
@@ -199,6 +210,7 @@
    - Dashboard, Settings, Events, Users, TestPanel
 
 ### Files Created
+
 - `src/renderer/src/theme.ts`
 - `src/renderer/src/components/Layout.tsx`
 - `src/renderer/src/components/Sidebar.tsx`
@@ -209,10 +221,12 @@
 - `src/renderer/src/pages/TestPanel.tsx`
 
 ### Files Modified
+
 - `src/renderer/src/main.tsx`
 - `src/renderer/src/App.tsx`
 
 ### Verification
+
 - App renders with dark theme
 - Navigation between pages works
 - Layout displays correctly
@@ -244,12 +258,15 @@
    - Logout
 
 ### Files Created
+
 - `src/renderer/src/contexts/AuthContext.tsx`
 
 ### Files Modified
+
 - `src/renderer/src/pages/Settings.tsx`
 
 ### Verification
+
 - Can enter and save credentials
 - Can initiate OAuth flow
 - Shows connected/disconnected status
@@ -290,6 +307,7 @@
    - Configurable max size
 
 ### Files Created
+
 - `src/main/twitch/index.ts`
 - `src/main/twitch/chat.ts`
 - `src/main/twitch/eventsub.ts`
@@ -298,6 +316,7 @@
 - `src/main/events/queue.ts`
 
 ### Verification
+
 - Connects to Twitch on auth
 - Receives chat messages
 - Receives EventSub events
@@ -334,11 +353,13 @@
    - Broadcast each event
 
 ### Files Created
+
 - `src/main/server/index.ts`
 - `src/main/server/routes.ts`
 - `src/main/server/websocket.ts`
 
 ### Verification
+
 - Server starts on port 9847
 - API endpoints return data
 - WebSocket accepts connections
@@ -379,15 +400,18 @@
    - Fire event button
 
 ### Files Created
+
 - `src/renderer/src/contexts/EventContext.tsx`
 
 ### Files Modified
+
 - `src/renderer/src/pages/Dashboard.tsx`
 - `src/renderer/src/pages/Events.tsx`
 - `src/renderer/src/pages/Users.tsx`
 - `src/renderer/src/pages/TestPanel.tsx`
 
 ### Verification
+
 - Dashboard shows live status
 - Event log updates in real-time
 - Users table is functional
@@ -429,6 +453,7 @@
 6. Add overlay build to main build process
 
 ### Files Created
+
 - `src/overlays/vite.config.ts`
 - `src/overlays/package.json`
 - `src/overlays/index.html`
@@ -439,6 +464,7 @@
 - `src/overlays/src/Chat.tsx`
 
 ### Verification
+
 - Overlays build successfully
 - Server serves overlay pages
 - WebSocket connection works
@@ -479,13 +505,16 @@
    - Show from tray
 
 ### Files Created
+
 - `src/main/logger.ts`
 
 ### Files Modified
+
 - `src/main/index.ts`
 - Various files (add logging)
 
 ### Verification
+
 - Logs written to files
 - Log rotation works
 - Tray icon appears

@@ -210,10 +210,7 @@ async function exchangeCodeForTokens(code: string): Promise<void> {
   createAuthProvider()
 }
 
-async function fetchAndStoreBroadcasterInfo(
-  accessToken: string,
-  clientId: string
-): Promise<void> {
+async function fetchAndStoreBroadcasterInfo(accessToken: string, clientId: string): Promise<void> {
   const response = await fetch('https://api.twitch.tv/helix/users', {
     headers: {
       Authorization: `Bearer ${accessToken}`,

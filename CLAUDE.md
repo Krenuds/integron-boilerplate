@@ -8,16 +8,16 @@ Electron desktop application boilerplate using React 19, TypeScript, and electro
 
 ## Commands
 
-| Command | Purpose |
-|---------|---------|
-| `npm run dev` | Start development server with hot reload |
-| `npm run build` | Build for production (runs typecheck first) |
-| `npm run build:win` | Build Windows installer |
-| `npm run build:mac` | Build macOS DMG |
-| `npm run build:linux` | Build Linux packages |
-| `npm run typecheck` | Run all TypeScript checks |
-| `npm run lint` | Lint with ESLint |
-| `npm run format` | Format with Prettier |
+| Command               | Purpose                                     |
+| --------------------- | ------------------------------------------- |
+| `npm run dev`         | Start development server with hot reload    |
+| `npm run build`       | Build for production (runs typecheck first) |
+| `npm run build:win`   | Build Windows installer                     |
+| `npm run build:mac`   | Build macOS DMG                             |
+| `npm run build:linux` | Build Linux packages                        |
+| `npm run typecheck`   | Run all TypeScript checks                   |
+| `npm run lint`        | Lint with ESLint                            |
+| `npm run format`      | Format with Prettier                        |
 
 ## Architecture
 
@@ -28,6 +28,7 @@ Three-process Electron architecture:
 3. **Renderer Process** (`src/renderer/src/`) - React application
 
 **IPC Pattern:**
+
 - Main listens: `ipcMain.on('channel', handler)`
 - Renderer sends: `window.electron.ipcRenderer.send('channel')`
 
@@ -86,18 +87,18 @@ The Electron window is the **configuration dashboard**. The HTTP server serves *
 
 ## Tech Stack
 
-| Layer | Technology | Purpose |
-|-------|------------|---------|
-| Framework | Electron 39 + electron-vite | Desktop app framework |
-| UI Library | Chakra UI | Component library (dark theme only) |
-| State | React Context | State management |
-| Routing | React Router v7 | Page navigation |
-| Twitch API | Twurple (all packages) | OAuth, API, Chat, EventSub |
-| Database | better-sqlite3 + Drizzle ORM | Local data persistence |
-| HTTP Server | Express.js | Serve overlays and API |
-| WebSocket | ws | Real-time overlay updates |
-| Token Storage | electron-store | Secure credential storage |
-| Logging | electron-log | File-based logging (3 file rotation) |
+| Layer         | Technology                   | Purpose                              |
+| ------------- | ---------------------------- | ------------------------------------ |
+| Framework     | Electron 39 + electron-vite  | Desktop app framework                |
+| UI Library    | Chakra UI                    | Component library (dark theme only)  |
+| State         | React Context                | State management                     |
+| Routing       | React Router v7              | Page navigation                      |
+| Twitch API    | Twurple (all packages)       | OAuth, API, Chat, EventSub           |
+| Database      | better-sqlite3 + Drizzle ORM | Local data persistence               |
+| HTTP Server   | Express.js                   | Serve overlays and API               |
+| WebSocket     | ws                           | Real-time overlay updates            |
+| Token Storage | electron-store               | Secure credential storage            |
+| Logging       | electron-log                 | File-based logging (3 file rotation) |
 
 ---
 
@@ -119,18 +120,18 @@ All available broadcaster scopes will be requested:
 
 ### Events Listened
 
-| Event | Source | Persisted |
-|-------|--------|-----------|
-| Chat messages | Chat client | User data only |
-| Subscriptions (new, resub, gift) | EventSub | Yes |
-| Channel point redemptions | EventSub | Yes |
-| Follows | EventSub | Yes |
-| Bits/Cheers | EventSub | Yes |
-| Raids | EventSub | Yes |
-| Hype trains | EventSub | Yes |
-| Polls | EventSub | No |
-| Predictions | EventSub | No |
-| Shoutouts | EventSub | No |
+| Event                            | Source      | Persisted      |
+| -------------------------------- | ----------- | -------------- |
+| Chat messages                    | Chat client | User data only |
+| Subscriptions (new, resub, gift) | EventSub    | Yes            |
+| Channel point redemptions        | EventSub    | Yes            |
+| Follows                          | EventSub    | Yes            |
+| Bits/Cheers                      | EventSub    | Yes            |
+| Raids                            | EventSub    | Yes            |
+| Hype trains                      | EventSub    | Yes            |
+| Polls                            | EventSub    | No             |
+| Predictions                      | EventSub    | No             |
+| Shoutouts                        | EventSub    | No             |
 
 ### Token Management
 
@@ -145,37 +146,37 @@ All available broadcaster scopes will be requested:
 
 ### users
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | TEXT PK | Twitch user ID |
-| username | TEXT | Login name |
-| display_name | TEXT | Display name |
-| profile_image_url | TEXT | Avatar URL |
-| first_seen | DATETIME | First interaction |
-| last_seen | DATETIME | Most recent interaction |
-| message_count | INT | Total chat messages |
-| bits_total | INT | Lifetime bits |
-| sub_months | INT | Cumulative sub months |
-| metadata | JSON | Extensible data |
+| Column            | Type     | Description             |
+| ----------------- | -------- | ----------------------- |
+| id                | TEXT PK  | Twitch user ID          |
+| username          | TEXT     | Login name              |
+| display_name      | TEXT     | Display name            |
+| profile_image_url | TEXT     | Avatar URL              |
+| first_seen        | DATETIME | First interaction       |
+| last_seen         | DATETIME | Most recent interaction |
+| message_count     | INT      | Total chat messages     |
+| bits_total        | INT      | Lifetime bits           |
+| sub_months        | INT      | Cumulative sub months   |
+| metadata          | JSON     | Extensible data         |
 
 ### events
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT PK | Auto-increment ID |
-| type | TEXT | Event type (chat, sub, follow, etc.) |
-| user_id | TEXT FK | Reference to users.id |
-| data | JSON | Full event payload |
-| created_at | DATETIME | Event timestamp |
+| Column     | Type     | Description                          |
+| ---------- | -------- | ------------------------------------ |
+| id         | INT PK   | Auto-increment ID                    |
+| type       | TEXT     | Event type (chat, sub, follow, etc.) |
+| user_id    | TEXT FK  | Reference to users.id                |
+| data       | JSON     | Full event payload                   |
+| created_at | DATETIME | Event timestamp                      |
 
 Indexed on `(type, created_at)` for efficient queries.
 
 ### settings
 
-| Column | Type | Description |
-|--------|------|-------------|
-| key | TEXT PK | Setting key |
-| value | TEXT | JSON-encoded value |
+| Column | Type    | Description        |
+| ------ | ------- | ------------------ |
+| key    | TEXT PK | Setting key        |
+| value  | TEXT    | JSON-encoded value |
 
 ### Backups
 
@@ -191,12 +192,12 @@ Database automatically backed up to `backups/` folder on app start.
 
 ### HTTP Endpoints
 
-| Route | Purpose |
-|-------|---------|
-| `/overlay/*` | Serve built overlay React pages |
-| `/api/events` | REST: Get recent events |
-| `/api/users` | REST: Get user data |
-| `/auth/callback` | OAuth callback handler |
+| Route            | Purpose                         |
+| ---------------- | ------------------------------- |
+| `/overlay/*`     | Serve built overlay React pages |
+| `/api/events`    | REST: Get recent events         |
+| `/api/users`     | REST: Get user data             |
+| `/auth/callback` | OAuth callback handler          |
 
 ### WebSocket Protocol
 
@@ -221,29 +222,34 @@ Overlays connect to `ws://localhost:9847` and receive JSON messages:
 ## Electron Dashboard Pages
 
 ### Dashboard (`/`)
+
 - Connection status indicators (Twitch, server, WebSocket)
 - Quick stats (total users, events today, connected overlays)
 - Recent event preview
 
 ### Settings (`/settings`)
+
 - OAuth credentials form (Client ID, Client Secret)
 - Connect/Disconnect Twitch account
 - Server port configuration
 - Log level toggle
 
 ### Event Log (`/events`)
+
 - Real-time scrolling event stream
 - Filter by event type (checkboxes)
 - Search by username
 - Timestamp display
 
 ### Users (`/users`)
+
 - Paginated user table
 - Sortable columns (messages, last seen, bits, sub months)
 - Click for user detail view
 - Delete user option
 
 ### Test Panel (`/test`)
+
 - Buttons to simulate each event type
 - Custom JSON payload editor
 - Event preview before sending
@@ -255,24 +261,28 @@ Overlays connect to `ws://localhost:9847` and receive JSON messages:
 React pages served via HTTP, designed for OBS browser sources.
 
 ### Event Feed (`/overlay/feed`)
+
 - Scrolling list of all events
 - Max 50 items, auto-scroll
 - Event type icons
 - URL params: `?max=50&types=chat,sub`
 
 ### Alert Box (`/overlay/alerts`)
+
 - Popup notifications for events
 - Animated entrance/exit
 - Queue system for multiple alerts
 - URL params: `?duration=5000&animation=slide`
 
 ### Chat Overlay (`/overlay/chat`)
+
 - Recent chat messages
 - Username colors and badges
 - Fade out old messages
 - URL params: `?max=10&fade=30000`
 
 All overlays:
+
 - Connect to WebSocket automatically
 - Reconnect on disconnect
 - Minimal styling (designed for customization)
@@ -284,26 +294,31 @@ All overlays:
 Typed end-to-end communication between renderer and main process.
 
 ### Auth
+
 - `auth:get-status` - Returns `{ authenticated, channel }`
 - `auth:start-login` - Opens browser for OAuth
 - `auth:logout` - Clears tokens
 - `auth:save-credentials` - Stores client ID/secret
 
 ### Events
+
 - `events:get-recent` - Returns `Event[]`
 - `events:test-fire` - Simulates an event
 - `events:subscribe` - Start receiving live events
 
 ### Users
+
 - `users:get-all` - Returns paginated `User[]`
 - `users:get-by-id` - Returns single `User`
 - `users:delete` - Removes user record
 
 ### Server
+
 - `server:get-status` - Returns `{ running, port, connections }`
 - `server:restart` - Restart HTTP/WS server
 
 ### Settings
+
 - `settings:get` - Returns all settings
 - `settings:update` - Updates settings
 
@@ -404,10 +419,10 @@ src/
 - **Customization**: CSS-friendly for developers to restyle
 - **Boilerplate philosophy**: Clean foundation for creativity
 
-
 ## TypeScript Configuration
 
 Three separate tsconfig files:
+
 - `tsconfig.node.json` - Main and preload processes
 - `tsconfig.web.json` - Renderer process (includes path alias `@renderer/*` → `src/renderer/src/*`)
 - `tsconfig.json` - Composite root
