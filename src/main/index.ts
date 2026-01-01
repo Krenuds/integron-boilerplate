@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, screen } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -7,15 +7,21 @@ import { initDatabase, closeDatabase } from './db'
 import { overlayServer } from './server'
 import { logger } from './logger'
 import { createTray, destroyTray } from './tray'
+import { getWindowBounds, setWindowBounds } from './store'
 
 // Track if we're really quitting or just hiding to tray
 let isQuitting = false
 
 function createWindow(): BrowserWindow {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+  // Default window size (720x804 - compact and tall)
+  const defaultWidth = 720
+  const defaultHeight = 804
+
+  // Load saved bounds or use defaults
+  const savedBounds = getWindowBounds()
+  let windowOptions: Electron.BrowserWindowConstructorOptions = {
+    width: defaultWidth,
+    height: defaultHeight,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -23,7 +29,47 @@ function createWindow(): BrowserWindow {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
-  })
+  }
+
+  // Validate saved bounds are on a visible display
+  if (savedBounds) {
+    const displays = screen.getAllDisplays()
+    const isVisible = displays.some((display) => {
+      const { x, y, width, height } = display.bounds
+      // Check if at least part of the window is on this display
+      return (
+        savedBounds.x < x + width &&
+        savedBounds.x + savedBounds.width > x &&
+        savedBounds.y < y + height &&
+        savedBounds.y + savedBounds.height > y
+      )
+    })
+
+    if (isVisible) {
+      windowOptions = {
+        ...windowOptions,
+        x: savedBounds.x,
+        y: savedBounds.y,
+        width: savedBounds.width,
+        height: savedBounds.height
+      }
+      logger.debug('Restored window bounds', savedBounds)
+    } else {
+      logger.debug('Saved bounds not visible, using defaults')
+    }
+  }
+
+  const mainWindow = new BrowserWindow(windowOptions)
+
+  // Save window bounds when moved or resized
+  const saveBounds = (): void => {
+    if (!mainWindow.isMinimized() && !mainWindow.isMaximized()) {
+      const bounds = mainWindow.getBounds()
+      setWindowBounds(bounds)
+    }
+  }
+  mainWindow.on('resize', saveBounds)
+  mainWindow.on('move', saveBounds)
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()

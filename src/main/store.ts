@@ -13,12 +13,20 @@ interface TokenData {
   scope: string[]
 }
 
+interface WindowBounds {
+  x: number
+  y: number
+  width: number
+  height: number
+}
+
 interface StoreSchema {
   credentials: Credentials | null
   tokens: TokenData | null
   broadcasterId: string | null
   broadcasterLogin: string | null
   broadcasterProfileImageUrl: string | null
+  windowBounds: WindowBounds | null
 }
 
 const store = new Store<StoreSchema>({
@@ -28,7 +36,8 @@ const store = new Store<StoreSchema>({
     tokens: null,
     broadcasterId: null,
     broadcasterLogin: null,
-    broadcasterProfileImageUrl: null
+    broadcasterProfileImageUrl: null,
+    windowBounds: null
   }
 })
 
@@ -86,6 +95,14 @@ export function clearBroadcaster(): void {
 
 export function clearAll(): void {
   store.clear()
+}
+
+export function getWindowBounds(): WindowBounds | null {
+  return store.get('windowBounds')
+}
+
+export function setWindowBounds(bounds: WindowBounds): void {
+  store.set('windowBounds', bounds)
 }
 
 export { store }
