@@ -96,14 +96,17 @@ function startCallbackServer(): Promise<void> {
         const error = parsedUrl.query.error as string
 
         if (error) {
-          res.writeHead(400, { 'Content-Type': 'text/html' })
+          res.writeHead(400, { 'Content-Type': 'text/html; charset=utf-8' })
           res.end(`
+            <!DOCTYPE html>
             <html>
+              <head><meta charset="utf-8"></head>
               <body style="background:#1a1a2e;color:#fff;font-family:system-ui;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">
                 <div style="text-align:center;">
-                  <h1>❌ Authorization Failed</h1>
-                  <p>${error}</p>
-                  <p>You can close this window.</p>
+                  <div style="font-size:48px;margin-bottom:16px;color:#ef4444;">&#10007;</div>
+                  <h1 style="margin:0 0 8px 0;">Authorization Failed</h1>
+                  <p style="color:#f87171;">${error}</p>
+                  <p style="color:#9ca3af;">You can close this window.</p>
                 </div>
               </body>
             </html>
@@ -115,26 +118,32 @@ function startCallbackServer(): Promise<void> {
         if (code) {
           try {
             await exchangeCodeForTokens(code)
-            res.writeHead(200, { 'Content-Type': 'text/html' })
+            res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
             res.end(`
+              <!DOCTYPE html>
               <html>
+                <head><meta charset="utf-8"></head>
                 <body style="background:#1a1a2e;color:#fff;font-family:system-ui;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">
                   <div style="text-align:center;">
-                    <h1>✅ Authorization Successful</h1>
-                    <p>You can close this window and return to Integron.</p>
+                    <div style="font-size:48px;margin-bottom:16px;color:#22c55e;">&#10003;</div>
+                    <h1 style="margin:0 0 8px 0;">Authorization Successful</h1>
+                    <p style="color:#9ca3af;">You can close this window and return to Integron.</p>
                   </div>
                 </body>
               </html>
             `)
           } catch (err) {
-            res.writeHead(500, { 'Content-Type': 'text/html' })
+            res.writeHead(500, { 'Content-Type': 'text/html; charset=utf-8' })
             res.end(`
+              <!DOCTYPE html>
               <html>
+                <head><meta charset="utf-8"></head>
                 <body style="background:#1a1a2e;color:#fff;font-family:system-ui;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">
                   <div style="text-align:center;">
-                    <h1>❌ Token Exchange Failed</h1>
-                    <p>${err instanceof Error ? err.message : 'Unknown error'}</p>
-                    <p>You can close this window.</p>
+                    <div style="font-size:48px;margin-bottom:16px;color:#ef4444;">&#10007;</div>
+                    <h1 style="margin:0 0 8px 0;">Token Exchange Failed</h1>
+                    <p style="color:#f87171;">${err instanceof Error ? err.message : 'Unknown error'}</p>
+                    <p style="color:#9ca3af;">You can close this window.</p>
                   </div>
                 </body>
               </html>
