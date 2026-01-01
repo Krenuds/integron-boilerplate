@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Box, Heading, Text, Badge, HStack, VStack, Avatar, Circle, Link } from '@chakra-ui/react'
+import { Box, Heading, Text, Badge, HStack, VStack, Avatar, Circle } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useEvents } from '../contexts/EventContext'
 import { useAuth } from '../contexts/AuthContext'
@@ -118,9 +118,9 @@ export default function Dashboard(): React.JSX.Element {
           ) : (
             <VStack align="flex-start" gap={2}>
               <Text color="red.400" fontWeight="medium">Disconnected</Text>
-              <Link as={RouterLink} to="/settings" color="purple.400" fontSize="sm">
+              <RouterLink to="/settings" style={{ color: '#A855F7', fontSize: '14px' }}>
                 Go to Settings to connect your Twitch account →
-              </Link>
+              </RouterLink>
             </VStack>
           )}
         </Box>
